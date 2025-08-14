@@ -13975,6 +13975,7 @@ hr {
   -webkit-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  z-index: 1;
 }
 @media (max-width: 991.98px) {
   .user-menu {
@@ -22097,15 +22098,6 @@ body.mini-sidebar.expand-menu .sidebar .sidebar-menu > ul > li.submenu-open ul l
 .login-wrapper .login-content .form-sociallink ul li .apple-logo {
   border-radius: 10px;
   background: #000000;
-}
-.login-wrapper .login-content.user-login {
-  width: 100%;
-  padding: 0;
-  overflow: hidden;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  height: auto;
-  margin: 50px 0;
 }
 .login-wrapper .login-content.user-login .login-userset {
   background: #ffffff;
@@ -32520,5 +32512,6 @@ label span {
 .text-default {
   color: #5B6670;
 }
-
-/*# sourceMappingURL=style.css.map */
+.fl-wrapper{
+  z-index: 10000 !important;
+}

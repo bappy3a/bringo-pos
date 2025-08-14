@@ -127,7 +127,6 @@
             </div>
         </li>
         <!-- /Notifications -->
-
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
                 <span class="user-info">
@@ -135,20 +134,13 @@
                         <img src="assets/img/profiles/avator1.jpg" alt="" class="img-fluid" />
                     </span>
                     <span class="user-detail">
-                        <span class="user-name">John Smilga</span>
+                        <span class="user-name">{{ auth_username() }}</span>
                         <span class="user-role">Super Admin</span>
                     </span>
                 </span>
             </a>
             <div class="dropdown-menu menu-drop-user">
                 <div class="profilename">
-                    <div class="profileset">
-                        <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="" /> <span class="status online"></span></span>
-                        <div class="profilesets">
-                            <h6>John Smilga</h6>
-                            <h5>Super Admin</h5>
-                        </div>
-                    </div>
                     <hr class="m-0" />
                     <a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My Profile</a>
                     <a class="dropdown-item" href="general-settings.html"><i class="me-2" data-feather="settings"></i>Settings</a>
@@ -166,7 +158,7 @@
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="profile.html">My Profile</a>
             <a class="dropdown-item" href="general-settings.html">Settings</a>
-            <a class="dropdown-item" href="signin.html">Logout</a>
+            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
         </div>
     </div>
     <!-- /Mobile Menu -->
