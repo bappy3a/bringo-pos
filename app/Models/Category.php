@@ -1,17 +1,17 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Models;
 
-{{ factoryImport }}
 use Illuminate\Database\Eloquent\Model;
 
-class {{ class }} extends Model
+class Category extends Model
 {
-    {{ factory }}
+    //
     protected $guarded = ['id'];
-    
+
     public function scopeForUserBusiness($query)
     {
         return $query->where('business_id', auth()->user()->business_id);
     }
+
 }

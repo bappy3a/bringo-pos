@@ -4,45 +4,22 @@
             <ul>
                 <li class="submenu-open">
                     <ul>
-                        <li  class="active">
-                            <a href="{{ route('home') }}"><i data-feather="box"></i><span>Dashboard</span></a>
+                        <li class="{{ areActiveRoutes(['home']) }}">
+                            <a href="{{ route('home') }}"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
-                        <li>
-                            <a href="product-list.html"><i data-feather="box"></i><span>Products</span></a>
+                        <li class="submenu">
+                            <a class="{{ areActiveRoutesRequest(['products*','categories*']) }}" href="javascript:void(0);"><i data-feather="package"></i><span>Products</span><span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a href="{{ route('home') }}">List Products</a></li>
+                                <li><a href="{{ route('home') }}">Add Products</a></li>
+                                <li><a href="{{ route('home') }}">Print Labels</a></li>
+                                <li><a href="{{ route('home') }}">Import Products</a></li>
+                                <li><a href="{{ route('home') }}">Units</a></li>
+                                <li><a class="{{ areActiveRoutesRequest(['categories*']) }}" href="{{ route('categories.index') }}">Category</a></li>
+                                <li><a href="{{ route('home') }}">Brands</a></li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="add-product.html"><i data-feather="plus-square"></i><span>Create Product</span></a>
-                        </li>
-                        <li>
-                            <a href="expired-products.html"><i data-feather="codesandbox"></i><span>Expired Products</span></a>
-                        </li>
-                        <li>
-                            <a href="low-stocks.html"><i data-feather="trending-down"></i><span>Low Stocks</span></a>
-                        </li>
-                        <li>
-                            <a href="category-list.html"><i data-feather="codepen"></i><span>Category</span></a>
-                        </li>
-                        <li>
-                            <a href="sub-categories.html"><i data-feather="speaker"></i><span>Sub Category</span></a>
-                        </li>
-                        <li>
-                            <a href="brand-list.html"><i data-feather="tag"></i><span>Brands</span></a>
-                        </li>
-                        <li>
-                            <a href="units.html"><i data-feather="speaker"></i><span>Units</span></a>
-                        </li>
-                        <li>
-                            <a href="varriant-attributes.html"><i data-feather="layers"></i><span>Variant Attributes</span></a>
-                        </li>
-                        <li>
-                            <a href="warranty.html"><i data-feather="bookmark"></i><span>Warranties</span></a>
-                        </li>
-                        <li>
-                            <a href="barcode.html"><i data-feather="align-justify"></i><span>Print Barcode</span></a>
-                        </li>
-                        <li>
-                            <a href="qrcode.html"><i data-feather="maximize"></i><span>Print QR Code</span></a>
-                        </li>
+                        
                     </ul>
                 </li>
                 

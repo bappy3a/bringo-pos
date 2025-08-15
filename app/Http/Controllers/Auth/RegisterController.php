@@ -78,7 +78,11 @@ class RegisterController extends Controller
                 'alternate_number',
                 'email',
             ]), $business->id);
-
+            
+            $user->update([
+                'business_id' => $business->id
+            ]);
+            
             DB::commit();
             return redirect()->route('home');
         } catch (\Exception $e) {
