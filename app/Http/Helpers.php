@@ -40,7 +40,7 @@ if (!function_exists('areActiveRoutesRequest')) {
         return null;
     }
 }
-
+//get business  data value
 if (!function_exists('get_business')) {
     function get_business($key, $default = null)
     {

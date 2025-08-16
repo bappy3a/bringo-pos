@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\CategoryStoreAndUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+
+use function Flasher\Prime\flash;
 
 class CategoryController extends Controller
 {
@@ -27,9 +30,21 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryStoreAndUpdateRequest $request)
     {
-        //
+        
+        $category = New Category();
+        $category->name = $request->name;
+        $category->code = $request->code;
+        $category->description = $request->description;
+
+        if ($request->hasFile('image')) {
+            $category->image =  $request->file('image')->store('uploads');
+        }
+
+        $category->save();
+        flash()->success('Category successfully created');
+        return redirect()->back();
     }
 
     /**

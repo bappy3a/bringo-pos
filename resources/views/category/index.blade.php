@@ -11,7 +11,7 @@
         </div>
     </div>
     <div class="page-btn">
-        <a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i data-feather="plus-circle" class="me-2"></i>Add New Category</a>
+        <a href="#" class="btn btn-added" data-bs-toggle="modal" data-bs-target="#addNewCategory"><i data-feather="plus-circle" class="me-2"></i>Add New Category</a>
     </div>
 </div>
 <!-- /product list -->
@@ -30,9 +30,10 @@
                 <thead>
                     <tr>
                         <th width="10%">No</th>
+                        <th width="15%">Image</th>
                         <th width="20%">Name</th>
-                        <th width="15%">Category Code</th>
-                        <th class="text-center">description</th>
+                        <th width="15%">Code</th>
+                        <th class="text-center">Description</th>
                         <th width="10%" class="no-sort text-center">Action</th>
                     </tr>
                 </thead>
@@ -40,9 +41,10 @@
                     @foreach ($categorys as $key=>$category)
                         <tr>
                             <td>{{ $key+1 }}</td>
-                            <td>laptop</td>
-                            <td>25 May 2023</td>
-                            <td>25 May 2023</td>
+                            <td><img src="{{ asset($category->image) }}" width="40" alt=""></td>
+                            <td>{{ $category->name }}</td>
+                            <td>{{ $category->code }}</td>
+                            <td>{{ Str::limit($category->description,100) }}</td>
                             <td class="action-table-data text-end">
                                 <div class="edit-delete-action">
                                     <a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category">
@@ -61,21 +63,75 @@
     </div>
 </div>
 
+<div class="modal fade" id="editCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Crete new category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body custom-modal-body">
+                <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input name="name" type="text" class="form-control" placeholder="Category name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Code</label>
+                        <input name="code" type="text" class="form-control" placeholder="Category code">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <input name="image" class="form-control" type="file" id="formFile">
+                        <span class="form-text text-muted">Size 40 * 40 px</span>
+                       
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" id="" placeholder="Category description"></textarea>
+                    </div>
+                    <div class="modal-footer-btn">
+                        <button type="submit" class="btn btn-submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Crete new category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary btn-sm">Understood</button>
+            <div class="modal-body custom-modal-body">
+                <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input name="name" type="text" class="form-control" placeholder="Category name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Code</label>
+                        <input name="code" type="text" class="form-control" placeholder="Category code">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <input name="image" class="form-control" type="file" id="formFile">
+                        <span class="form-text text-muted">Size 40 * 40 px</span>
+                       
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" id="" placeholder="Category description"></textarea>
+                    </div>
+                    <div class="modal-footer-btn">
+                        <button type="submit" class="btn btn-submit">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
