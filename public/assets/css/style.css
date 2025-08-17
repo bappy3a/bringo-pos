@@ -1320,9 +1320,9 @@ button:focus {
   box-shadow: 0 4px 20px rgba(255, 159, 67, 0.15);
 }
 .btn.btn-primary:hover, .btn.btn-primary:focus, .btn.btn-primary.focus, .btn.btn-primary:active, .btn.btn-primary.active {
-  background-color: #ff8d1f !important;
-  border: 1px solid #ff8d1f !important;
-  box-shadow: 0 3px 10px rgba(255, 159, 67, 0.5);
+  background-color: #743ef4 !important;
+  border: 1px solid #743ef4 !important;
+  box-shadow: 0 3px 10px rgba(73, 67, 255, 0.5);
   color: #ffffff !important;
 }
 .btn.btn-secondary {

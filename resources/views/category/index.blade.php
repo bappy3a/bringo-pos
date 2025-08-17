@@ -47,10 +47,10 @@
                             <td>{{ Str::limit($category->description,100) }}</td>
                             <td class="action-table-data text-end">
                                 <div class="edit-delete-action">
-                                    <a class="me-2 p-2" href="#" data-bs-toggle="modal" data-bs-target="#edit-category">
+                                    <a class="me-2 p-2" href="javascript:void(0)" onclick="editCategory({{  $category->id }})">
                                         <i data-feather="edit" class="feather-edit"></i>
                                     </a>
-                                    <a class="confirm-text p-2" href="javascript:void(0);">
+                                    <a onclick="confirm_modal('{{route('categories.destroy', $category->id)}}');" class="confirm-text p-2" href="javascript:void(0);">
                                         <i data-feather="trash-2" class="feather-trash-2"></i>
                                     </a>
                                 </div>
@@ -63,7 +63,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="editCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="addNewCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,38 +100,15 @@
     </div>
 </div>
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="edit-category" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Crete new category</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Update category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body custom-modal-body">
-                <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input name="name" type="text" class="form-control" placeholder="Category name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Code</label>
-                        <input name="code" type="text" class="form-control" placeholder="Category code">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Image</label>
-                        <input name="image" class="form-control" type="file" id="formFile">
-                        <span class="form-text text-muted">Size 40 * 40 px</span>
-                       
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="description" class="form-control" id="" placeholder="Category description"></textarea>
-                    </div>
-                    <div class="modal-footer-btn">
-                        <button type="submit" class="btn btn-submit">Submit</button>
-                    </div>
-                </form>
+            <div class="modal-body custom-modal-body" id="category_data">
+                
             </div>
         </div>
     </div>
@@ -145,4 +122,13 @@
 @section('js')
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script>
+    function editCategory(id){
+        $('#category_data').html(null);
+        $.get("{{ route('categories.edit', ':id') }}".replace(':id', id), function(data){
+            $('#category_data').html(data);
+            $('#edit-category').modal('show');
+        });
+    }
+</script>
 @endsection
