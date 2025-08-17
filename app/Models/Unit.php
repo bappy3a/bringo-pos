@@ -1,15 +1,14 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Models;
 
-{{ factoryImport }}
 use Illuminate\Database\Eloquent\Model;
 
-class {{ class }} extends Model
+class Unit extends Model
 {
-    {{ factory }}
+    //
     protected $guarded = ['id'];
-
+    
     protected static function booted()
     {
         static::creating(function ($model) {
@@ -18,7 +17,6 @@ class {{ class }} extends Model
             }
         });
     }
-    
     public function scopeForUserBusiness($query)
     {
         return $query->where('business_id', auth()->user()->business_id);

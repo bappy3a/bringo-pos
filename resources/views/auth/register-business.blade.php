@@ -216,21 +216,6 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
-    <style>
-        .select2-container .select2-selection--single {
-            height: calc(2.5rem + 2px);
-            padding: 0.5rem 0.85rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.375rem;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__clear{
-            margin-top: -10px !important;
-            margin-right: 0 !important;
-        }
-        .select2-container--default .select2-selection--single .select2-selection__arrow{
-            display: none !important;
-        }
-    </style>
 @endsection
 
 @section('js')
