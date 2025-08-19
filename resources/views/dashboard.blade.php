@@ -8,12 +8,10 @@
 		</div>
 		<ul class="table-top-head">
 			<li>
-				<a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i data-feather="rotate-ccw"
-						class="feather-rotate-ccw"></i></a>
+				<a data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh"><i data-feather="rotate-ccw" class="feather-rotate-ccw"></i></a>
 			</li>
 			<li>
-				<a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i
-						data-feather="chevron-up" class="feather-chevron-up"></i></a>
+				<a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i data-feather="chevron-up" class="feather-chevron-up"></i></a>
 			</li>
 		</ul>
 	</div>

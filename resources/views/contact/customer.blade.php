@@ -7,7 +7,7 @@
     <div class="add-item d-flex">
         <div class="page-title">
             <h4>Customers</h4>
-            <h6>Manage your contact</h6>
+            <h6>Manage your Customers</h6>
         </div>
     </div>
     <div class="page-btn">
@@ -29,7 +29,7 @@
             <table class="table datanew">
                 <thead>
                     <tr>
-                        <th width="10%">No</th>
+                        <th width="7%">No</th>
                         <th width="20%">Name</th>
                         <th>Email</th>
                         <th>Phone</th>
@@ -42,11 +42,12 @@
                         <tr>
                             <td>{{ $key+1 }}</td>
                             <td>{{ $contact->name }}</td>
-                            <td>{{ $contact->code }}</td>
-                            <td>{{ Str::limit($contact->description,100) }}</td>
+                            <td>{{ $contact->email }}</td>
+                            <td>{{ $contact->phone }}</td>
+                            <td>{{ $contact->address }}</td>
                             <td class="action-table-data text-end">
                                 <div class="edit-delete-action">
-                                    <a class="me-2 p-2" href="javascript:void(0)" onclick="editCategory({{  $contact->id }})">
+                                    <a class="me-2 p-2" href="javascript:void(0)" onclick="editContacts({{  $contact->id }})">
                                         <i data-feather="edit" class="feather-edit"></i>
                                     </a>
                                     <a onclick="confirm_modal('{{route('contacts.destroy', $contact->id)}}');" class="confirm-text p-2" href="javascript:void(0);">
@@ -63,15 +64,21 @@
 </div>
 
 @include('contact.create')
-
-<div class="modal fade" id="edit-category" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+@php
+    $type = request()->query('type');
+@endphp
+<div class="modal fade" id="edit-customers" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Update category</h5>
+                @if($type == 'customer')
+                    <h5 class="modal-title" id="staticBackdropLabel">Update customer</h5>
+                @elseif($type == 'supplier')
+                    <h5 class="modal-title" id="staticBackdropLabel">Update supplier</h5>
+                @endif
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body custom-modal-body" id="category_data">
+            <div class="modal-body custom-modal-body" id="customers_data">
 
             </div>
         </div>
@@ -87,11 +94,11 @@
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
-    function editCategory(id){
-        $('#category_data').html(null);
-        $.get("{{ route('categories.edit', ':id') }}".replace(':id', id), function(data){
-            $('#category_data').html(data);
-            $('#edit-category').modal('show');
+    function editContacts(id){
+        $('#customers_data').html(null);
+        $.get("{{ route('contacts.edit', ':id') }}".replace(':id', id), function(data){
+            $('#customers_data').html(data);
+            $('#edit-customers').modal('show');
         });
     }
 </script>

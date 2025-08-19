@@ -75,5 +75,6 @@ class ContactController extends Controller
         $customer = Contact::findOrFail($id);
         $customer->delete();
         flash()->success('Customer Deleted Successfully');
+        return redirect()->back();
     }
 }

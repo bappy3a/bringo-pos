@@ -25,18 +25,18 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input name="name" type="text" class="form-control" placeholder="Name">
+                        <input name="name" type="text" class="form-control" placeholder="Name" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">email</label>
-                        <input name="email" type="email" class="form-control" placeholder="email">
+                        <label class="form-label">Email Address</label>
+                        <input name="email" type="email" class="form-control" placeholder="Email Address">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">phone</label>
+                        <label class="form-label">Phone Number</label>
                         <input name="phone" type="tel" class="form-control" placeholder="Phone Number">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">address</label>
+                        <label class="form-label">Address (Optional)</label>
                         <input name="address" type="text" class="form-control" placeholder="Full address">
                     </div>
                     <div class="modal-footer-btn">
