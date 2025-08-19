@@ -16,10 +16,6 @@ class RegisterController extends Controller
     public function registerBusinessFrom()
     {
         $businesses = Business::count();
-        if ($businesses > 0) {
-            return redirect()->route('register');
-        }
-
         $currencys = Currency::orderBy('country')->get();
         $timezones = json_file_to_collect(asset('json/timezone.json'));
         return view('auth.register-business', compact('currencys', 'timezones'));
@@ -78,11 +74,11 @@ class RegisterController extends Controller
                 'alternate_number',
                 'email',
             ]), $business->id);
-            
+
             $user->update([
                 'business_id' => $business->id
             ]);
-            
+
             DB::commit();
             return redirect()->route('home');
         } catch (\Exception $e) {

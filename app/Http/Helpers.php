@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
 if (!function_exists('json_file_to_collect')) {
-    function json_file_to_collect($timezonePath)    
+    function json_file_to_collect($timezonePath)
     {
         $timezonesArray = json_decode(file_get_contents($timezonePath), true);
         return collect($timezonesArray);
@@ -14,7 +14,7 @@ if (!function_exists('json_file_to_collect')) {
 }
 // return auth full name
 if (!function_exists('auth_username')) {
-    function auth_username()    
+    function auth_username()
     {
         $auth = auth()->user();
         return $auth->first_name .' '.$auth->last_name;
@@ -38,6 +38,22 @@ if (!function_exists('areActiveRoutesRequest')) {
             if (Request::is($route) == $route)  return $output;
         }
         return null;
+    }
+}
+//highlights the selected navigation on admin panel
+if (! function_exists('isActiveUrl')) {
+    function isActiveUrl(string $path, array $query = [], string $activeClass = 'subdrop active'): string
+    {
+        $request = request();
+        if ($request->is(ltrim($path, '/'))) {
+            foreach ($query as $key => $value) {
+                if ($request->query($key) !== $value) {
+                    return '';
+                }
+            }
+            return $activeClass;
+        }
+        return '';
     }
 }
 //get business  data value
