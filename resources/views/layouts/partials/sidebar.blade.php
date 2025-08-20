@@ -17,10 +17,10 @@
                         <li class="submenu">
                             <a class="{{ areActiveRoutesRequest(['products*','categories*','units*','brands*']) }}" href="javascript:void(0);"><i data-feather="package"></i><span>Products</span><span class="menu-arrow"></span></a>
                             <ul>
-                                <li><a href="{{ route('home') }}">List Products</a></li>
-                                <li><a href="{{ route('home') }}">Add Products</a></li>
+                                <li><a class="{{ areActiveRoutesUrl('products') }}" href="{{ route('products.index') }}">List Products</a></li>
+                                <li><a class="{{ areActiveRoutesUrl('products/create') }}" href="{{ route('products.create') }}">Add Products</a></li>
                                 <li><a href="{{ route('home') }}">Print Labels</a></li>
-                                <li><a href="{{ route('home') }}">Import Products</a></li>
+                                <li><a href="{{ route('products.index') }}">Import Products</a></li>
                                 <li><a class="{{ areActiveRoutesRequest(['units*']) }}" href="{{ route('units.index') }}">Units</a></li>
                                 <li><a class="{{ areActiveRoutesRequest(['categories*']) }}" href="{{ route('categories.index') }}">Category</a></li>
                                 <li><a class="{{ areActiveRoutesRequest(['brands*']) }}" href="{{ route('brands.index') }}">Brands</a></li>

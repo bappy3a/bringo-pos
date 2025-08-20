@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Unit\UnitStoreAndUpdateRequest;
+use App\Http\Requests\Brand\BrandStoreAndUpdateRequest;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BrandController extends Controller
 {
@@ -20,7 +21,7 @@ class BrandController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UnitStoreAndUpdateRequest $request)
+    public function store(BrandStoreAndUpdateRequest $request)
     {
         $unit = New Brand();
         $unit->name = $request->name;
@@ -29,6 +30,46 @@ class BrandController extends Controller
         flash()->success('Brand successfully created');
         return redirect()->back();
 
+    }
+
+    /**
+     * Store a newly created resource in storage via AJAX.
+     * 
+     * @param BrandStoreAndUpdateRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ajaxStore(BrandStoreAndUpdateRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            
+            $brand = new Brand();
+            $brand->name = $request->name;
+            $brand->description = $request->description;
+            $brand->save();
+            
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Brand created successfully!',
+                'brand' => [
+                    'id' => $brand->id,
+                    'name' => $brand->name
+                ]
+            ], 201);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            \Log::error('Brand creation failed: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create brand. Please try again.',
+                'error' => config('app.debug') ? $e->getMessage() : null
+            ], 500);
+        }
     }
 
     /**
@@ -43,7 +84,7 @@ class BrandController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UnitStoreAndUpdateRequest $request, $id)
+    public function update(BrandStoreAndUpdateRequest $request, $id)
     {
         $unit = Brand::findOrFail($id);
         $unit->name = $request->name;

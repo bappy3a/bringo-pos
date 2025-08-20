@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Business;
+use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 if (!function_exists('json_file_to_collect')) {
     function json_file_to_collect($timezonePath)
@@ -41,6 +43,14 @@ if (!function_exists('areActiveRoutesRequest')) {
     }
 }
 //highlights the selected navigation on admin panel
+if (!function_exists('areActiveRoutesUrl')) {
+    function areActiveRoutesUrl($url, $output = "subdrop active")
+    {
+        if (Request::is($url) == $url)  return $output;
+        return null;
+    }
+}
+//highlights the selected navigation on admin panel
 if (! function_exists('isActiveUrl')) {
     function isActiveUrl(string $path, array $query = [], string $activeClass = 'subdrop active'): string
     {
@@ -68,5 +78,32 @@ if (!function_exists('get_business')) {
         $value = $business ? $business->{$key} : null;
 
         return $value ?? $default;
+    }
+}
+
+//product name to slug ganarate
+if (!function_exists('slug_generator')) {
+    function slug_generator($slug,$type=null)
+    {
+        $new_slug = Str::slug($slug);
+        $originalSlug = $new_slug;
+        $i = 1;
+        while (Product::where('slug', $new_slug)->exists()) {
+            $new_slug = $originalSlug . '-' . $i++;
+        }
+        return $new_slug;
+    }
+}
+
+if (!function_exists('sku_generator')) {
+    function sku_generator()
+    {
+        $sku = 'SKU-' . strtoupper(Str::random(8));
+        
+        while (Product::where('sku', $sku)->exists()) {
+            $sku = 'SKU-' . strtoupper(Str::random(8));
+        }
+        
+        return $sku;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Unit\UnitStoreAndUpdateRequest;
 use App\Models\Unit;
+use Illuminate\Support\Facades\DB;
 
 class UnitController extends Controller
 {
@@ -29,6 +30,48 @@ class UnitController extends Controller
         flash()->success('Unit successfully created');
         return redirect()->back();
 
+    }
+
+    /**
+     * Store a newly created resource in storage via AJAX.
+     * 
+     * @param UnitStoreAndUpdateRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ajaxStore(UnitStoreAndUpdateRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            
+            $unit = new Unit();
+            $unit->name = $request->name;
+            $unit->allow_decimal = $request->allow_decimal ?? false;
+            $unit->description = $request->description;
+            $unit->save();
+            
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Unit created successfully!',
+                'unit' => [
+                    'id' => $unit->id,
+                    'name' => $unit->name,
+                    'allow_decimal' => $unit->allow_decimal
+                ]
+            ], 201);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            \Log::error('Unit creation failed: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create unit. Please try again.',
+                'error' => config('app.debug') ? $e->getMessage() : null
+            ], 500);
+        }
     }
 
     /**

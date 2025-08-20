@@ -2,13 +2,13 @@
     <!-- Logo -->
     <div class="header-left active">
         <a href="index.html" class="logo logo-normal">
-            <img src="assets/images/logo.png" alt="" />
+            <img src="{{ asset(get_business('logo')) ?? asset('assets/images/logo.png') }}" alt="" />
         </a>
         <a href="index.html" class="logo logo-white">
-            <img src="assets/images/logo-white.png" alt="" />
+            <img src="{{ asset(get_business('logo')) ?? asset('assets/images/logo-white.png') }}" alt="" />
         </a>
         <a href="index.html" class="logo-small">
-            <img src="assets/images/logo-small.png" alt="" />
+            <img src="{{ asset(get_business('logo')) ?? asset('assets/images/logo-small.png') }}" alt="" />
         </a>
         <a id="toggle_btn" href="javascript:void(0);">
             <svg aria-hidden="true" class="tw-size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

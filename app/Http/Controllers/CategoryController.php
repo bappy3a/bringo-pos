@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Category\CategoryStoreAndUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function Flasher\Prime\flash;
 
@@ -37,6 +38,67 @@ class CategoryController extends Controller
         $category->save();
         flash()->success('Category successfully created');
         return redirect()->back();
+    }
+
+    /**
+     * Store a newly created resource in storage via AJAX.
+     * 
+     * @param CategoryStoreAndUpdateRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ajaxStore(CategoryStoreAndUpdateRequest $request)
+    {
+        try {
+            DB::beginTransaction();
+            
+            $category = new Category();
+            $category->name = $request->name;
+            $category->code = $request->code;
+            $category->description = $request->description;
+
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                
+                // Validate image
+                if (!$image->isValid()) {
+                    throw new \Exception('Invalid image file.');
+                }
+                
+                // Check file size (2MB max)
+                if ($image->getSize() > 2 * 1024 * 1024) {
+                    throw new \Exception('Image size must be less than 2MB.');
+                }
+                
+                // Store image
+                $category->image = $image->store('categories', 'public');
+            }
+
+            $category->save();
+            
+            DB::commit();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Category created successfully!',
+                'category' => [
+                    'id' => $category->id,
+                    'name' => $category->name,
+                    'code' => $category->code
+                ]
+            ], 201);
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            
+            \Log::error('Category creation failed: ' . $e->getMessage());
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create category. Please try again.',
+                'error' => config('app.debug') ? $e->getMessage() : null
+            ], 500);
+        }
     }
 
     /**

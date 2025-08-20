@@ -140,7 +140,7 @@
 
 .select2-container--default .select2-selection--single {
   background-color: #fff;
-  border: 1px solid #aaa;
+  /* border: 1px solid #aaa; */
   border-radius: 4px; }
   .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444;
@@ -161,7 +161,7 @@
     right: 1px;
     width: 20px; }
     .select2-container--default .select2-selection--single .select2-selection__arrow b {
-      border-color: #888 transparent transparent transparent;
+      /* border-color: #888 transparent transparent transparent; */
       border-style: solid;
       border-width: 5px 4px 0 4px;
       height: 0;

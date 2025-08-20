@@ -17,7 +17,9 @@ return new class extends Migration
             $table->foreignId('purchase_id')->constrained('purchases')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->decimal('quantity', 8, 2)->default(0);
-            $table->decimal('price', 8, 2)->default(0);
+            $table->decimal('number_of_unsell', 8, 2)->default(0);
+            $table->decimal('purchase_price', 8, 2)->default(0);
+            $table->decimal('selling_price', 8, 2)->default(0);
             $table->decimal('discount', 8, 2)->default(0);
             $table->decimal('tax', 8, 2)->default(0);
             $table->decimal('total', 8, 2)->default(0);
