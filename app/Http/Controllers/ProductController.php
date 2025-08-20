@@ -148,7 +148,8 @@ class ProductController extends Controller
                 ->withSum(['purchaseDetails as total_stock' => function ($query) use ($businessId) {
                     $query->where('business_id', $businessId);
                 }], 'number_of_unsell')
-                ->findOrFail($id);
+                ->where('slug', $id)
+                ->firstOrFail();
                 
             return view('product.show', compact('item'));
         } catch (\Exception $e) {

@@ -87,7 +87,7 @@
                             <td>{{ $product->brand->name }}</td>
                             <td class="action-table-data">
                                 <div class="edit-delete-action">
-                                    <a class="me-2 edit-icon  p-2" href="product-details.html">
+                                    <a class="me-2 edit-icon  p-2" href="{{ route('products.show',$product->slug) }}">
                                         <i data-feather="eye" class="feather-eye"></i>
                                     </a>
                                     <a class="me-2 p-2" href="{{ route('products.edit',$product->id) }}" >
