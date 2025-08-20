@@ -451,7 +451,7 @@
     <script>
         /**
          * Product Creation - AJAX Modal Forms Handler
-         * @author Your Name
+         * @author Ahmed Bappy
          * @version 1.0.0
          * @description Handles AJAX form submissions for Category, Brand, and Unit creation
          */

@@ -81,7 +81,7 @@
                                             <select class="select @error('category_id') is-invalid @enderror" name="category_id">
                                                 <option value=" " selected>Select category</option>
                                                 @foreach($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option @if(old('category_id') == $category->id ) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('category_id')
@@ -100,7 +100,7 @@
                                             <select class="select @error('brand_id') is-invalid @enderror" name="brand_id">
                                                 <option value=" " selected> Select brand</option>
                                                 @foreach($brands as $brand)
-                                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                    <option @if(old('brand_id') == $brand->id ) selected @endif value="{{ $brand->id }}">{{ $brand->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('brand_id')
@@ -119,7 +119,7 @@
                                             <select class="select @error('unit_id') is-invalid @enderror" name="unit_id">
                                                 <option value=" " selected> Select unit</option>
                                                 @foreach($units as $unit)
-                                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                                    <option @if(old('unit_id') == $unit->id ) selected @endif value="{{ $unit->id }}">{{ $unit->name }}</option>
                                                 @endforeach
                                             </select>
                                             @error('unit_id')
@@ -241,13 +241,20 @@
                     <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample2">
                         <div class="accordion-body">
                             <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                                    aria-labelledby="pills-home-tab">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-6 col-12">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div class="form-check form-check-md d-flex align-items-center mb-4">
+                                        <input class="form-check-input" type="checkbox" name="add_opening_stock" id="add_opening_stock" value="1" @if(old('add_opening_stock')) checked @endif>
+                                        <label class="form-check-label" for="add_opening_stock">
+                                            Add Opening Stock 
+                                        </label>
+                                    </div>
+
+                                    <div class="row d-none" id="opening_stock_div">
+                                        <div class="col-lg-3 col-sm-6 col-12">
                                             <div class="input-blocks add-product">
                                                 <label>Supplier</label>
                                                 <select class="select @error('supplier_id') is-invalid @enderror" name="supplier_id">
+                                                    <option value="" selected>Select supplier</option>
                                                     @foreach($suppliers as $supplier)
                                                         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                                     @endforeach
@@ -259,10 +266,10 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="col-lg-3 col-sm-6 col-12">
                                             <div class="input-blocks add-product">
-                                                <label>Quantity</label>
-                                                <input type="text" class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity') }}" required placeholder="Enter Quantity">
+                                                <label>Quantity Remaining</label>
+                                                <input type="number" step="any" class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity') }}" placeholder="Enter Stock Quantity">
                                                 @error('quantity')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -270,11 +277,22 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="col-lg-3 col-sm-6 col-12">
                                             <div class="input-blocks add-product">
-                                                <label>Price</label>
-                                                <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" value="{{ old('price') }}" required placeholder="Enter Price">
-                                                @error('price')
+                                                <label>Purchase Price</label>
+                                                <inputt type="number" step="any" class="form-control @error('purchase_price') is-invalid @enderror" name="purchase_price" value="{{ old('purchase_price') }}" placeholder="Enter Purchase Price">
+                                                @error('purchase_price')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6 col-12">
+                                            <div class="input-blocks add-product">
+                                                <label>Selling Price</label>
+                                                <inputt type="number" step="any"" class="form-control @error('selling_price') is-invalid @enderror" name="selling_price" value="{{ old('selling_price') }}" placeholder="Enter Selling Price">
+                                                @error('selling_price')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
@@ -469,7 +487,7 @@
 	<script>
 		/**
 		 * Product Creation - AJAX Modal Forms Handler
-		 * @author Your Name
+		 * @author Ahmed Bappy
 		 * @version 1.0.0
 		 * @description Handles AJAX form submissions for Category, Brand, and Unit creation
 		 */
@@ -477,6 +495,12 @@
 		(function($) {
 			'use strict';
 			
+			// Toggle Opening Stock section
+			function toggleOpeningStock() {
+				const isChecked = $('#add_opening_stock').is(':checked');
+				$('#opening_stock_div').toggleClass('d-none', !isChecked);
+			}
+
 			// Configuration object
 			const CONFIG = {
 				csrfToken: $('meta[name="csrf-token"]').attr('content'),
@@ -764,6 +788,10 @@
 					CONFIG.selectors.unitSelect,
 					'unit'
 				);
+				
+				// Opening stock show/hide
+				$('#add_opening_stock').on('change', toggleOpeningStock);
+				toggleOpeningStock();
 				
 				// Initialize tooltips
 				$('[data-bs-toggle="tooltip"]').tooltip();
