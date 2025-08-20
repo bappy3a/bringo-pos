@@ -90,10 +90,10 @@
                                     <a class="me-2 edit-icon  p-2" href="product-details.html">
                                         <i data-feather="eye" class="feather-eye"></i>
                                     </a>
-                                    <a class="me-2 p-2" href="edit-product.html" >
+                                    <a class="me-2 p-2" href="{{ route('products.edit',$product->id) }}" >
                                         <i data-feather="edit" class="feather-edit"></i>
                                     </a>
-                                    <a class="confirm-text p-2" href="javascript:void(0);">
+                                    <a onclick="confirm_modal('{{route('products.destroy', $product->id)}}');" class="confirm-text p-2" href="javascript:void(0);">
                                         <i data-feather="trash-2" class="feather-trash-2"></i>
                                     </a>
                                 </div>

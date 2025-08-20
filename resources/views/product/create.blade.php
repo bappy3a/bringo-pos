@@ -280,7 +280,7 @@
                                         <div class="col-lg-3 col-sm-6 col-12">
                                             <div class="input-blocks add-product">
                                                 <label>Purchase Price</label>
-                                                <inputt type="number" step="any" class="form-control @error('purchase_price') is-invalid @enderror" name="purchase_price" value="{{ old('purchase_price') }}" placeholder="Enter Purchase Price">
+                                                <input type="text" step="any" class="form-control @error('purchase_price') is-invalid @enderror" name="purchase_price" value="{{ old('purchase_price') }}" placeholder="Enter Purchase Price">
                                                 @error('purchase_price')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -291,7 +291,7 @@
                                         <div class="col-lg-3 col-sm-6 col-12">
                                             <div class="input-blocks add-product">
                                                 <label>Selling Price</label>
-                                                <inputt type="number" step="any"" class="form-control @error('selling_price') is-invalid @enderror" name="selling_price" value="{{ old('selling_price') }}" placeholder="Enter Selling Price">
+                                                <input type="number" step="any" class="form-control @error('selling_price') is-invalid @enderror" name="selling_price" value="{{ old('selling_price') }}" placeholder="Enter Selling Price">
                                                 @error('selling_price')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
