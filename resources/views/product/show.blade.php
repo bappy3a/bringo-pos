@@ -1,103 +1,128 @@
 @extends('layouts.app')
 
-@yield('title',$item->name)
+@section('title', 'Product Details')
 
 @section('content')
 <div class="page-header">
-    <div class="page-title">
-        <h4>Product Details</h4>
-        <h6>Full details of a product</h6>
+    <div class="add-item d-flex">
+        <div class="page-title">
+            <h4>Product Details</h4>
+            <h6>View product information</h6>
+        </div>
     </div>
+    <ul class="table-top-head">
+        <li>
+            <div class="page-btn">
+                <a href="{{ route('products.index') }}" class="btn btn-secondary"><i data-feather="arrow-left" class="me-2"></i>Back to Product</a>
+            </div>
+        </li>
+        <li>
+            <div class="page-btn">
+                <a href="{{ route('products.edit',$item->id) }}" class="btn btn-secondary"><i data-feather="edit" class="me-2"></i>Edit Product</a>
+            </div>
+        </li>
+    </ul>
+    
 </div>
-<!-- /add -->
+
 <div class="row">
-    <div class="col-lg-8 col-sm-12">
-        <div class="card">
+    <div class="col-lg-4">
+        <div class="card h-100">
             <div class="card-body">
-                <div class="bar-code-view">
-                    <img src="assets/img/barcode/barcode1.png" alt="barcode">
-                    <a class="printimg">
-                        <img src="assets/img/icons/printer.svg" alt="print">
-                    </a>
+                <div class="text-center mb-3">
+                    <img src="{{ $item->images ? asset($item->images) : asset('assets/images/image-not-found.avif') }}" alt="{{ $item->name }}" class="img-fluid rounded" style="max-height:220px; object-fit:contain;">
                 </div>
-                <div class="productdetails">
-                    <ul class="product-bar">
-                        <li>
-                            <h4>Product</h4>
-                            <h6>Macbook pro	</h6>
-                        </li>
-                        <li>
-                            <h4>Category</h4>
-                            <h6>Computers</h6>
-                        </li>
-                        <li>
-                            <h4>Sub Category</h4>
-                            <h6>None</h6>
-                        </li>
-                        <li>
-                            <h4>Brand</h4>
-                            <h6>None</h6>
-                        </li>
-                        <li>
-                            <h4>Unit</h4>
-                            <h6>Piece</h6>
-                        </li>
-                        <li>
-                            <h4>SKU</h4>
-                            <h6>PT0001</h6>
-                        </li>
-                        <li>
-                            <h4>Minimum Qty</h4>
-                            <h6>5</h6>
-                        </li>
-                        <li>
-                            <h4>Quantity</h4>
-                            <h6>50</h6>
-                        </li>
-                        <li>
-                            <h4>Tax</h4>
-                            <h6>0.00 %</h6>
-                        </li>
-                        <li>
-                            <h4>Discount Type</h4>
-                            <h6>Percentage</h6>
-                        </li>
-                        <li>
-                            <h4>Price</h4>
-                            <h6>1500.00</h6>
-                        </li>
-                        <li>
-                            <h4>Status</h4>
-                            <h6>Active</h6>
-                        </li>
-                        <li>
-                            <h4>Description</h4>
-                            <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</h6>
-                        </li>
-                    </ul>
+                <h5 class="mb-1">{{ $item->name }}</h5>
+                <p class="text-muted mb-3">SKU: {{ $item->sku ?? 'N/A' }}</p>
+
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <tbody>
+                            <tr>
+                                <th class="w-50">Category</th>
+                                <td>{{ optional($item->category)->name ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Brand</th>
+                                <td>{{ optional($item->brand)->name ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Unit</th>
+                                <td>{{ optional($item->unit)->name ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Barcode Type</th>
+                                <td>{{ strtoupper(str_replace('_',' ',$item->barcode_type ?? 'N/A')) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Alert Quantity</th>
+                                <td>{{ $item->alert_quantity ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>
+                                    @if(($item->status ?? 'active') === 'active')
+                                        <span class="badge bg-success">Active</span>
+                                    @else
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Not for Selling</th>
+                                <td>
+                                    @if((int)($item->not_for_selling ?? 0) === 1)
+                                        <span class="badge bg-warning text-dark">Yes</span>
+                                    @else
+                                        <span class="badge bg-light text-dark">No</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-sm-12">
-        <div class="card">
+
+    <div class="col-lg-8">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="mb-0">Stock & Pricing</h5>
+            </div>
             <div class="card-body">
-                <div class="slider-product-details">
-                    <div class="owl-carousel owl-theme product-slide">
-                        <div class="slider-product">
-                            <img src="assets/img/products/product69.jpg" alt="img">
-                            <h4>macbookpro.jpg</h4>
-                            <h6>581kb</h6>
+                <div class="row g-3">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-3 border rounded h-100">
+                            <div class="text-muted small">Total Stock</div>
+                            <div class="fs-5 fw-semibold">{{ number_format($item->total_stock ?? 0, 2) }} {{ optional($item->unit)->name }}</div>
                         </div>
-                        <div class="slider-product">
-                            <img src="assets/img/products/product69.jpg" alt="img">
-                            <h4>macbookpro.jpg</h4>
-                            <h6>581kb</h6>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-3 border rounded h-100">
+                            <div class="text-muted small">Latest Purchase Price</div>
+                            <div class="fs-5 fw-semibold">{{ number_format($item->latest_purchase_price ?? 0, 2) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="p-3 border rounded h-100">
+                            <div class="text-muted small">Latest Selling Price</div>
+                            <div class="fs-5 fw-semibold">{{ number_format($item->latest_selling_price ?? 0, 2) }}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Description</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">{{ $item->description ?: 'No description provided.' }}</p>
+            </div>
+        </div>
     </div>
 </div>
+
 @endsection

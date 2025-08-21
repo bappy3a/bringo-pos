@@ -44,9 +44,35 @@ if (!function_exists('areActiveRoutesRequest')) {
 }
 //highlights the selected navigation on admin panel
 if (!function_exists('areActiveRoutesUrl')) {
-    function areActiveRoutesUrl($url, $output = "subdrop active")
+    function areActiveRoutesUrl(array $urls, $output = "subdrop active")
     {
-        if (Request::is($url) == $url)  return $output;
+        foreach ($urls as $url) {
+            if (Request::is($url) == $url)  return $output;
+        }
+        return null;
+    }
+}
+
+//highlights the selected navigation on admin panel - excludes specific patterns
+if (!function_exists('areActiveRoutesUrlExclude')) {
+    function areActiveRoutesUrlExclude(array $urls, array $excludePatterns = [], $output = "subdrop active")
+    {
+        $currentPath = Request::path();
+        
+        // Check if current path matches any exclude patterns
+        foreach ($excludePatterns as $excludePattern) {
+            if (Request::is($excludePattern)) {
+                return null;
+            }
+        }
+        
+        // Check if current path matches any include patterns
+        foreach ($urls as $url) {
+            if (Request::is($url)) {
+                return $output;
+            }
+        }
+        
         return null;
     }
 }

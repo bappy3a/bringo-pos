@@ -142,15 +142,24 @@ class ProductController extends Controller
     {
         try {
             $businessId = $this->getBusinessId();
-            
-            $item = Product::forUserBusiness()
+
+            $query = Product::forUserBusiness()
                 ->with(['category', 'brand', 'unit'])
-                ->withSum(['purchaseDetails as total_stock' => function ($query) use ($businessId) {
-                    $query->where('business_id', $businessId);
-                }], 'number_of_unsell')
-                ->where('slug', $id)
-                ->firstOrFail();
-                
+                ->withSum([
+                    'purchaseDetails as total_stock' => function ($query) use ($businessId) {
+                        $query->where('business_id', $businessId);
+                    }
+                ], 'number_of_unsell');
+
+            // Allow lookup by numeric id or slug
+            if (is_numeric($id)) {
+                $query->where('id', (int) $id);
+            } else {
+                $query->where('slug', $id);
+            }
+
+            $item = $query->firstOrFail();
+
             return view('product.show', compact('item'));
         } catch (\Exception $e) {
             Log::error('Product show failed: ' . $e->getMessage());
