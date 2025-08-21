@@ -9,7 +9,6 @@ use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Purchase;
-use App\Models\PurchaseDetail;
 use App\Models\PurchaseDetails;
 use App\Models\Unit;
 use Illuminate\Support\Facades\DB;
