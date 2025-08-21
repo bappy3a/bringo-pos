@@ -495,4 +495,115 @@ class ProductController extends Controller
     public function printLabels(){
         return view('product.barcode');
     }
+
+    /**
+     * Search products by name or SKU for barcode printing
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchForBarcode(Request $request)
+    {
+        try {
+            $query = $request->get('query', '');
+            
+            if (strlen($query) < 2) {
+                return response()->json(['products' => []]);
+            }
+
+            $products = Product::forUserBusiness()
+                ->select('id', 'name', 'sku', 'barcode', 'images')
+                ->where(function($q) use ($query) {
+                    $q->where('name', 'LIKE', '%' . $query . '%')
+                      ->orWhere('sku', 'LIKE', '%' . $query . '%');
+                })
+                ->limit(10)
+                ->get()
+                ->map(function($product) {
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->name,
+                        'sku' => $product->sku,
+                        'barcode' => $product->barcode,
+                        'image' => $product->images ? asset('storage/' . $product->images) : asset('assets/images/image-not-found.avif')
+                    ];
+                });
+
+            return response()->json(['products' => $products]);
+            
+        } catch (\Exception $e) {
+            Log::error('Product search failed: ' . $e->getMessage());
+            return response()->json(['products' => [], 'error' => 'Search failed'], 500);
+        }
+    }
+
+    /**
+     * Generate barcode for selected products
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function generateBarcode(Request $request)
+    {
+        try {
+            $request->validate([
+                'products' => 'required|array|min:1',
+                'products.*.id' => 'required|exists:products,id',
+                'products.*.quantity' => 'required|integer|min:1',
+                'paper_size' => 'nullable|string',
+                'show_store_name' => 'boolean',
+                'show_product_name' => 'boolean',
+                'show_price' => 'boolean'
+            ]);
+
+            $businessId = $this->getBusinessId();
+            
+            $products = collect($request->products)->map(function($item) use ($businessId) {
+                $product = Product::forUserBusiness()->find($item['id']);
+                if (!$product) {
+                    throw new \Exception('Product not found or access denied');
+                }
+                
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'sku' => $product->sku,
+                    'barcode' => $product->barcode,
+                    'quantity' => $item['quantity'],
+                    'image' => $product->images ? asset('storage/' . $product->images) : asset('assets/img/products/noimage.png')
+                ];
+            });
+
+            // Here you would typically generate the barcode PDF
+            // For now, we'll return the data for frontend processing
+            return response()->json([
+                'success' => true,
+                'products' => $products,
+                'settings' => [
+                    'paper_size' => $request->paper_size,
+                    'show_store_name' => $request->show_store_name,
+                    'show_product_name' => $request->show_product_name,
+                    'show_price' => $request->show_price
+                ]
+            ]);
+            
+        } catch (\Exception $e) {
+            Log::error('Barcode generation failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to generate barcode'], 500);
+        }
+    }
+
+    public function barcodePrint(Request $request){
+        $ids  = $request->input('id');
+        $qtys = $request->input('qty');
+
+        $products = Product::whereIn('id', $ids)->get();
+
+        $productData = $products->map(function ($product) use ($ids, $qtys) {
+            $index = array_search($product->id, $ids);
+            $product->number_of_labels = $qtys[$index];
+            return $product;
+        });
+        return view('product.print-barcode',compact('productData'));
+    }
 }

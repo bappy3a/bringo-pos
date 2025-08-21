@@ -20,3 +20,6 @@ Route::post('units/ajax-store', [UnitController::class, 'ajaxStore'])->name('uni
 
 
 Route::get('print-labels', [ProductController::class, 'printLabels'])->name('product.print-labels');
+Route::post('search-for-barcode', [ProductController::class, 'searchForBarcode'])->name('product.search-for-barcode');
+Route::post('generate-barcode', [ProductController::class, 'generateBarcode'])->name('product.generate-barcode');
+Route::post('barcode-print', [ProductController::class,'barcodePrint'])->name('product.barcode.print');
