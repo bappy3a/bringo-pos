@@ -18,5 +18,5 @@ Route::post('categories/ajax-store', [CategoryController::class, 'ajaxStore'])->
 Route::post('brands/ajax-store', [BrandController::class, 'ajaxStore'])->name('brands.ajax-store');
 Route::post('units/ajax-store', [UnitController::class, 'ajaxStore'])->name('units.ajax-store');
 
-// AJAX route for product details modal
-Route::get('products/{id}/details', [ProductController::class, 'getDetails'])->name('products.details');
+
+Route::get('print-labels', [ProductController::class, 'printLabels'])->name('product.print-labels');

@@ -491,4 +491,8 @@ class ProductController extends Controller
         flash()->error($message);
         return redirect()->back()->withInput();
     }
+
+    public function printLabels(){
+        return view('product.barcode');
+    }
 }
