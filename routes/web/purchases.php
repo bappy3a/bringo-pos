@@ -3,4 +3,4 @@
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
-Route::resource("purchase",PurchaseController::class);
+Route::resource("purchases",PurchaseController::class);

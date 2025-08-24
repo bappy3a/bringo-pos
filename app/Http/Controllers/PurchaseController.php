@@ -12,7 +12,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchase = Purchase::forUserBusiness()
+        $purchases = Purchase::forUserBusiness()
         ->orderBy("created_at","desc")
         ->paginate(10);
         return view("purchase.index", compact("purchases"));

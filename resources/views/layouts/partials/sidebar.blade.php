@@ -26,7 +26,13 @@
                                 <li><a class="{{ areActiveRoutesRequest(['brands*']) }}" href="{{ route('brands.index') }}">Brands</a></li>
                             </ul>
                         </li>
-
+                        <li class="submenu">
+                            <a class="{{ areActiveRoutesRequest(['purchases*']) }}" href="javascript:void(0);"><i data-feather="download"></i><span>Purchases</span><span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a class="{{ areActiveRoutesForSubMenu(['purchases.index','purchases.show','purchases.edit','purchases.delete']) }}" href="{{ route('purchases.index') }}">List Purchases</a></li>
+                                <li><a class="{{ areActiveRoutesForSubMenu('purchases.create') }}" href="{{ route('purchases.create') }}">Add Purchase</a></li>
+                            </ul>
+                        </li>
 
                     </ul>
                 </li>
