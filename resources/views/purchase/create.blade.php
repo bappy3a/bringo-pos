@@ -10,44 +10,79 @@
         </div>
     </div>
     <div class="barcode-content-list">
-        <div class="row">
-            <div class="offset-3 col-lg-6">
-
-                <div class="input-blocks search-form seacrh-barcode-item">
-                    <div class="searchInput">
-                        <label class="form-label">Product</label>
-                        <input id="product-search-input" type="text" class="form-control" onkeyup="searchProducts(event)" placeholder="Search Product by name and SKU">
-                        <div id="resultBox" class="search-results"></div>
-                        <div class="icon"><i class="fas fa-search"></i></div>
+        <form action="{{ route('purchases.store') }}" method="post">
+            @csrf
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="input-blocks">
+                        <label>Supplier Name</label>
+                        <select class="select" name="contact_id" required>
+                            <option value="">Select Supplier</option>
+                            @foreach ($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
-
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="input-blocks">
+                        <label>Purchase Date </label>
+                        <div class="input-groupicon">
+                            <input name="date" type="text" placeholder="Selete Purchase Date" class="datetimepicker">
+                            <div class="addonset">
+                                <img src="{{ asset('assets/img/icons/calendars.svg') }}" alt="img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="input-blocks">
+                        <label>Reference No.</label>
+                        <input name="reference_no" type="text" placeholder="Enter you reference No">
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-6 col-12">
+                    <div class="input-blocks">
+                        <label>Product</label>
+                        <div class="input-groupicon">
+                            <input type="text" class="form-control" onkeyup="searchProducts(event)" id="product-search-input" placeholder="Scan/Search Product by code and select">
+                            <div class="addonset">
+                                <img src="{{ asset('assets/img/icons/scanners.svg') }}" alt="img">
+                            </div>
+                            <div id="resultBox" class="search-results"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <form action="{{ route('product.barcode.print') }}" method="post">
-            @csrf
-            <div class="col-lg-12">
-                <div class="modal-body-table search-modal-header">
-                    <div class="table-responsive">
-                        <table class="table  datanews">
+                
+            <div class="col-lg-12 col-sm-6 col-1">
+                <div class="modal-body-table">
+                    <div class="table-fixed">
+                        <table class="table datanews">
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>SKU</th>
-                                    <th>Barcode</th>
-                                    <th>No. of labels</th>
-                                    <th class="text-center no-sort">Action</th>
+                                    <th white="20%">Product<br> Name</th>
+                                    <th white="10%">Purchase  <br> Quantity</th>
+                                    <th white="20%">Unit Purchase Price <br>(Before Discount)</th>
+                                    <th white="10%">Discount<br> Amount</th>
+                                    <th white="10%">Unit Cost <br> (Before Tax)</th>
+                                    <th white="20%">Unit Selling Price <br>  (Inc. tax)</th>
+                                    <th white="10%" class="text-center no-sort">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="selectedProducts">
-
-                            </tbody>
+                            <tbody id="selectedProductsForPurchase"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         
+
+            <div class="col-lg-12 col-sm-6 col-12">
+                <div class="input-blocks">
+                    <label>Additional Notes</label>
+                    <textarea name="note" id="" class="form-control "></textarea>
+                </div>
+            </div>
 
             <div class="search-barcode-button">
                 <button type="submit"  class="btn btn-primary">
@@ -60,7 +95,8 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
@@ -163,22 +199,27 @@
                     const row = `
                     <tr data-product-id="${product.id}">
                         <td>
-                            <input type="hidden" name="id[]" value="${product.id}" />
-                            <div class="productimgname">
-                                <a href="javascript:void(0);" class="product-img stock-img">
-                                    <img src="${product.image}" alt="${product.name}" onerror="this.src='{{ asset('assets/img/products/noimage.png') }}'">
-                                </a>
-                                <a href="javascript:void(0);">${product.name}</a>
+                            <input type="hidden" name="product_id[]" value="${product.id}" />
+                            <div>
+                                <span>${product.name}</span>
+                                <br />
+                                <small>Current stock: ${product.total_unsell ?? 0}</small>
                             </div>
                         </td>
-                        <td>${product.sku}</td>
-                        <td>${product.barcode || 'N/A'}</td>
                         <td>
-                            <div class="product-quantity">
-                                <span class="quantity-btn" onclick="changeQuantity(${product.id}, -1)"><i data-feather="minus-circle" class="feather-search"></i></span>                                                        
-                                    <input type="text" name="qty[]" class="quntity-input" value="1" min="1" onchange="updateQuantity(${product.id}, this.value)"">
-                                <span class="quantity-btn" onclick="changeQuantity(${product.id}, 1)">+<i data-feather="plus-circle" class="plus-circle"></i></span>
-                            </div>
+                            <input name="quantity[]" type="number" min="1" class="form-control" placeholder="Purchase Quantity" required>
+                        </td>
+                        <td>
+                            <input name="purchase_price[]" type="number" min="1" step="any" class="form-control" placeholder="Purchase price" required>
+                        </td>
+                        <td>
+                            <input name="discount[]" type="number" min="1" step="any" class="form-control" placeholder="Discount amount">
+                        </td>
+                        <td>
+                            <input name="tax[]" type="number" min="1" step="any" class="form-control" placeholder="Tax amount">
+                        </td>
+                        <td>
+                            <input name="selling_price[]" type="number" min="1" step="any" class="form-control" placeholder="Selling price" required>
                         </td>
                         <td class="action-table-data justify-content-center">
                             <div class="edit-delete-action">
@@ -188,9 +229,9 @@
                             </div>
                         </td>
                     </tr>
-                `;
+                    `;
 
-                    $('#selectedProducts').append(row);
+                    $('#selectedProductsForPurchase').append(row);
                     const searchInput = document.getElementById('product-search-input');
                     searchInput.value = null;
                     searchInput.focus();
@@ -354,6 +395,7 @@
 @endsection
 
 @section('css')
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
     <style>

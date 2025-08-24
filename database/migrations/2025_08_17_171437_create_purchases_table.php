@@ -27,6 +27,7 @@ return new class extends Migration
             $table->double('total')->default(0);
             $table->enum('payment_status',['pay','due']);
             $table->string('payment_method')->nullable();
+            $table->string('reference_no')->nullable();
             $table->tinyText('note')->nullable();
             $table->timestamps();
         });
