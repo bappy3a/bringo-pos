@@ -362,9 +362,12 @@ class ProductController extends Controller
         
         // Create purchase record
         $purchase = Purchase::create([
+            'user_id' => auth()->user()->id,
             'business_id' => $businessId,
             'contact_id' => $request->supplier_id,
             'amount' => $lineTotal,
+            'paid' => $lineTotal,
+            'due' => 0,
             'discount' => 0,
             'tax' => 0,
             'total' => $lineTotal,

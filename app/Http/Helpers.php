@@ -54,26 +54,16 @@ if (!function_exists('areActiveRoutesUrl')) {
 }
 
 //highlights the selected navigation on admin panel - excludes specific patterns
-if (!function_exists('areActiveRoutesUrlExclude')) {
-    function areActiveRoutesUrlExclude(array $urls, array $excludePatterns = [], $output = "subdrop active")
+if (!function_exists('areActiveRoutesForSubMenu')) {
+    function areActiveRoutesForSubMenu($menus = [])
     {
-        $currentPath = Request::path();
-        
-        // Check if current path matches any exclude patterns
-        foreach ($excludePatterns as $excludePattern) {
-            if (Request::is($excludePattern)) {
-                return null;
-            }
+        $currentRoute = Request::route()->getName(); // current route name
+
+        if (is_array($menus)) {
+            return in_array($currentRoute, $menus) ? 'subdrop active' : '';
         }
-        
-        // Check if current path matches any include patterns
-        foreach ($urls as $url) {
-            if (Request::is($url)) {
-                return $output;
-            }
-        }
-        
-        return null;
+
+        return $currentRoute === $menus ? 'subdrop active' : '';
     }
 }
 //highlights the selected navigation on admin panel

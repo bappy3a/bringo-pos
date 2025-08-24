@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('business_id')->constrained('businesses')->cascadeOnDelete();
             $table->foreignId('transaction_id')->nullable()->constrained('transactions')->cascadeOnDelete();
             $table->foreignId('contact_id')->constrained('contacts')->cascadeOnDelete();
             $table->double('amount')->default(0);
+            $table->double('paid')->default(0);
+            $table->double('due')->default(0);
             $table->double('discount')->default(0);
             $table->double('tax')->default(0);
             $table->double('total')->default(0);
