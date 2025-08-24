@@ -22,4 +22,28 @@ class Purchase extends Model
     {
         return $query->where('business_id', auth()->user()->business_id);
     }
+
+    /**
+     * Get the purchase details for this purchase.
+     */
+    public function purchaseDetails()
+    {
+        return $this->hasMany(PurchaseDetails::class);
+    }
+
+    /**
+     * Get the contact (supplier) for this purchase.
+     */
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
+    /**
+     * Get the user who created this purchase.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

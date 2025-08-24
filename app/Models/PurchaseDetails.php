@@ -22,4 +22,20 @@ class PurchaseDetails extends Model
     {
         return $query->where('business_id', auth()->user()->business_id);
     }
+
+    /**
+     * Get the product for this purchase detail.
+     */
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Get the purchase for this purchase detail.
+     */
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class);
+    }
 }

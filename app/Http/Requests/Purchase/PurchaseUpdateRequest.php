@@ -4,7 +4,7 @@ namespace App\Http\Requests\Purchase;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PurchaseStoreRequest extends FormRequest
+class PurchaseUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,11 @@ class PurchaseStoreRequest extends FormRequest
             "product_id"=> "required|array",
             "product_id.*"=> "required|exists:products,id",
             "quantity"=> "required|array",
-            "quantity.*"=> "required|numeric",
+            "quantity.*"=> "required|numeric|min:0",
             "purchase_price"=> "required|array",
-            "purchase_price.*"=> "required|numeric",
+            "purchase_price.*"=> "required|numeric|min:0",
             "selling_price"=> "required|array",
-            "selling_price.*"=> "required|numeric",
+            "selling_price.*"=> "required|numeric|min:0",
             "date" => "required|date_format:d-m-Y",
             "reference_no" => "nullable|string|max:255",
             "note" => "nullable|string",
