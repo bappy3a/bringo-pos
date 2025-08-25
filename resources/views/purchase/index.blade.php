@@ -75,7 +75,7 @@
                                             <a href="{{ route('purchases.edit', $purchase->id) }}" class="dropdown-item" ><i data-feather="edit" class="info-img"></i>Edit Purchase</a>
                                         </li>	
                                         <li>
-                                            <a href="{{ route('purchases.edit', $purchase->id) }}" class="dropdown-item" ><i data-feather="refresh-ccw" class="info-img"></i>Purchase Return</a>
+                                            <a href="{{ route('purchase.return', $purchase->id) }}" class="dropdown-item" ><i data-feather="refresh-cw" class="info-img"></i>Purchase Return</a>
                                         </li>	
                                         <li>
                                             <a onclick="confirm_modal('{{route('purchases.destroy', $purchase->id)}}');" href="javascript:void(0);" class="dropdown-item"><i data-feather="trash-2" class="info-img"></i>Delete Sale</a>

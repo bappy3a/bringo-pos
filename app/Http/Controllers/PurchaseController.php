@@ -142,6 +142,7 @@ class PurchaseController extends Controller
         return view("purchase.edit", compact("purchase", "suppliers", "purchaseDetails"));
     }
 
+
     /**
      * Update the specified resource in storage.
      */
@@ -251,5 +252,21 @@ class PurchaseController extends Controller
             flash()->error('Failed to delete purchase. Please try again.');
             return redirect()->back();
         }
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function return($id)
+    {
+        $purchase = Purchase::with(['contact','purchaseDetails'])->findOrFail($id);
+        // Check if user has permission to edit this purchase
+        if ($purchase->business_id !== Auth::user()->business_id) {
+            flash()->error('You do not have permission to edit this purchase.');
+            return redirect()->route('purchases.index');
+        }
+        
+        return view("purchase.return", compact("purchase"));
     }
 }
