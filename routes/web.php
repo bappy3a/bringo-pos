@@ -10,4 +10,5 @@ Route::group(['middleware' => ['auth']], function () {
       require __DIR__ . '/web/product.php';
       require __DIR__ . '/web/purchases.php';
       require __DIR__ . '/web/accounts.php';
+      require __DIR__ . '/web/expenses.php';
 });

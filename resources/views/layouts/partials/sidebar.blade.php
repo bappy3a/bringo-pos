@@ -43,6 +43,15 @@
                             </ul>
                         </li>
 
+                        <li class="submenu">
+                            <a class="{{ areActiveRoutesRequest(['expenses*','expense-categories*']) }}" href="javascript:void(0);"><i data-feather="dollar-sign"></i><span>Expenses</span><span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a class="{{ areActiveRoutesForSubMenu(['expenses.index','expenses.show','expenses.edit','expenses.delete']) }}" href="{{ route('expenses.index') }}">List Expenses</a></li>
+                                <li><a class="{{ areActiveRoutesForSubMenu('expenses.create') }}" href="{{ route('expenses.create') }}">Add Expense</a></li>
+                                <li><a class="{{ areActiveRoutesForSubMenu(['expense-categories.index','expense-categories.edit','expense-categories.create']) }}" href="{{ route('expense-categories.index') }}">Categories</a></li>
+                            </ul>
+                        </li>
+
 
                     </ul>
                 </li>
