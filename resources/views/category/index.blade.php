@@ -38,7 +38,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categorys as $key=>$category)
+                    @forelse ($categorys as $key=>$category)
                         <tr>
                             <td>{{ $key+1 }}</td>
                             <td><img src="{{ asset($category->image) }}" width="40" alt=""></td>
@@ -56,7 +56,20 @@
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div class="empty-state">
+                                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                                    <h5>No Category Found</h5>
+                                    <p class="text-muted">Start by creating your first purchase.</p>
+                                    <a  data-bs-toggle="modal" data-bs-target="#addNewCategory" href="javascript:void(0)" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Create Category
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

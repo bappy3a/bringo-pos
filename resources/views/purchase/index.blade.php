@@ -14,8 +14,6 @@
     </div>	
 </div>
 
-
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive product-list">

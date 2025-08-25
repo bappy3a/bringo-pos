@@ -69,7 +69,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $key=>$product)
+                    @forelse ($products as $key=>$product)
                         <tr>
                             <td>
                                 <div class="productimgname">
@@ -99,7 +99,20 @@
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="8" class="text-center">
+                                <div class="empty-state">
+                                    <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                                    <h5>No Products Found</h5>
+                                    <p class="text-muted">Start by creating your first purchase.</p>
+                                    <a href="{{ route('products.create') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus me-2"></i>Create Product
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
                 <tfoot>
                     <tr>
