@@ -63,18 +63,24 @@
                                     @endif
                                     
                                 </td>
-                                <td class="action-table-data">
-                                    <div class="edit-delete-action">
-                                        <a class="me-2 p-2" href="{{ route('purchases.show', $purchase->id) }}">
-                                            <i data-feather="eye" class="action-eye"></i>
-                                        </a>
-                                        <a class="me-2 p-2" href="{{ route('purchases.edit', $purchase->id) }}">
-                                            <i data-feather="edit" class="feather-edit"></i>
-                                        </a>
-                                        <a onclick="confirm_modal('{{route('purchases.destroy', $purchase->id)}}');" class="confirm-text p-2" href="javascript:void(0);">
-                                            <i data-feather="trash-2" class="feather-trash-2"></i>
-                                        </a>
-                                    </div>
+                                <td class="text-center">
+                                    <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ route('purchases.show', $purchase->id) }}" class="dropdown-item"><i data-feather="eye" class="info-img"></i>Purchase Detail</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('purchases.edit', $purchase->id) }}" class="dropdown-item" ><i data-feather="edit" class="info-img"></i>Edit Purchase</a>
+                                        </li>	
+                                        <li>
+                                            <a href="{{ route('purchases.edit', $purchase->id) }}" class="dropdown-item" ><i data-feather="refresh-ccw" class="info-img"></i>Purchase Return</a>
+                                        </li>	
+                                        <li>
+                                            <a onclick="confirm_modal('{{route('purchases.destroy', $purchase->id)}}');" href="javascript:void(0);" class="dropdown-item"><i data-feather="trash-2" class="info-img"></i>Delete Sale</a>
+                                        </li>								
+                                    </ul>
                                 </td>
                             </tr>
                         @empty
@@ -117,6 +123,7 @@
 @section('js')
     <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script>
+
         function deletePurchase(purchaseId) {
             Swal.fire({
                 title: 'Delete Purchase',

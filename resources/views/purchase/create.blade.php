@@ -22,6 +22,11 @@
                                 <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                             @endforeach
                         </select>
+                        @error('contact_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12">
@@ -33,12 +38,22 @@
                                 <img src="{{ asset('assets/img/icons/calendars.svg') }}" alt="img">
                             </div>
                         </div>
+                        @error('date')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="input-blocks">
                         <label>Reference No.</label>
                         <input name="reference_no" type="text" placeholder="Enter you reference No">
+                        @error('reference_no')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-lg-12 col-sm-6 col-12">
@@ -81,13 +96,18 @@
                 <div class="input-blocks">
                     <label>Additional Notes</label>
                     <textarea name="note" id="" class="form-control "></textarea>
+                    @error('note')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
             </div>
 
             <div class="search-barcode-button">
                 <button type="submit"  class="btn btn-primary">
-                    <span><i class="fas fa-print me-2"></i></span>
-                    Print Barcode
+                    <span><i class="fas fa-save me-2"></i></span>
+                    Save
                 </button>
             </div>
         </form>

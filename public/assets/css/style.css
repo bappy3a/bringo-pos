@@ -2711,7 +2711,6 @@ button:focus {
 }
 .dropdown-item:not(.active):hover, .dropdown-item:not(.active):focus, .dropdown-item:not(.active):active {
   color: #9769ff;
-  background-color: rgba(255, 159, 67, 0.05);
 }
 .dropdown-item.active {
   background-color: #9769ff !important;
@@ -22297,13 +22296,12 @@ body.mini-sidebar.expand-menu .sidebar .sidebar-menu > ul > li.submenu-open ul l
 }
 
 .product-list ul {
-  display: -webkit-box;
+  /* display: -webkit-box; */
   display: -ms-flexbox;
-  display: flex;
+  /* display: flex; */
   align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
-  /* margin-bottom: 15px; */
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
@@ -32579,4 +32577,7 @@ select:hover option {
 .product-edit-image{
   max-width: 60px !important; 
   margin-top: -26px !important;
+}
+a.dropdown-item:hover {
+  background-color: #fff !important;
 }

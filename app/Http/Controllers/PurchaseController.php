@@ -47,11 +47,11 @@ class PurchaseController extends Controller
             $total = collect($request->purchase_price)->sum();
             $discount = collect($request->discount ?? [])->sum();
             $tax = collect($request->tax ?? [])->sum();
-            
             // Create purchase record
             $purchase = Purchase::create([
                 'user_id' => Auth::id(),
                 'location_id' => Auth::user()->location_id,
+                'business_id' => Auth::user()->business_id,
                 'transaction_id' => $request->transaction_id,
                 'contact_id' => $request->contact_id,
                 'date' => \Carbon\Carbon::createFromFormat('d-m-Y', $request->date),
@@ -79,6 +79,7 @@ class PurchaseController extends Controller
                     'purchase_id' => $purchase->id,
                     'product_id' => $productId,
                     'location_id' => Auth::user()->location_id,
+                    'business_id' => Auth::user()->business_id,
                     'quantity' => $quantity,
                     'number_of_unsell' => 0,
                     'purchase_price' => $purchasePrice,
@@ -100,6 +101,7 @@ class PurchaseController extends Controller
             return redirect()->route('purchases.index');
             
         } catch (\Exception $e) {
+            dd($e->getMessage());
             DB::rollback();
             
             flash()->error('Failed to create purchase. Please try again.');
