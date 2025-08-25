@@ -3,8 +3,6 @@
 @section('title', 'Products')
 
 @section('content')
-<div class="page-wrapper">
-<div class="content">
 <div class="page-header">
     <div class="add-item d-flex">
         <div class="page-title">
@@ -136,8 +134,6 @@
         </div>
     </div>
 
-</div>
-</div>
 </div>
 
 @endsection

@@ -36,6 +36,7 @@ class AccountTransactionController extends Controller
                 'business_id' => Auth::user()->business_id,
                 'account_id' => $account->id,
                 'type' => 'deposit',
+                'transactionable_type' => 'credit',
                 'amount' => (float)$request->amount,
                 'note' => $request->note,
                 'transacted_at' => now(),
@@ -66,6 +67,7 @@ class AccountTransactionController extends Controller
                 'business_id' => Auth::user()->business_id,
                 'account_id' => $account->id,
                 'type' => 'withdraw',
+                'transactionable_type' => 'debate',
                 'amount' => (float)$request->amount,
                 'note' => $request->note,
                 'transacted_at' => now(),
@@ -101,7 +103,8 @@ class AccountTransactionController extends Controller
 
             AccountTransaction::create([
                 'business_id' => Auth::user()->business_id,
-                'account_id' => $from->id,
+                'account_id' => $from->id, 
+                'transactionable_type' => 'debate',
                 'type' => 'transfer_out',
                 'amount' => $amount,
                 'note' => $request->note,
@@ -112,6 +115,7 @@ class AccountTransactionController extends Controller
                 'business_id' => Auth::user()->business_id,
                 'account_id' => $to->id,
                 'type' => 'transfer_in',
+                'transactionable_type' => 'credit',
                 'amount' => $amount,
                 'note' => $request->note,
                 'transacted_at' => now(),

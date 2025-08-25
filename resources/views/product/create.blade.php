@@ -3,8 +3,7 @@
 @section('title','Create Product')
 
 @section('content')
-<div class="page-wrapper">
-  <div class="content">
+
 <div class="page-header">
     <div class="add-item d-flex">
         <div class="page-title">
@@ -21,72 +20,28 @@
     </ul>
     
     </div>
-<!-- /add -->
-<form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
-    @csrf
-    <div class="card">
-        <div class="card-body add-product pb-0">
-            <div class="accordion-card-one accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <div class="accordion-header" id="headingOne">
-                        <div class="accordion-button">
-                            <div class="addproduct-icon">
-                                <h5><i data-feather="info" class="add-info"></i><span>Product Information</span></h5>
+    <!-- /add -->
+    <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="card">
+            <div class="card-body add-product pb-0">
+                <div class="accordion-card-one accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="headingOne">
+                            <div class="accordion-button">
+                                <div class="addproduct-icon">
+                                    <h5><i data-feather="info" class="add-info"></i><span>Product Information</span></h5>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="row">
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="mb-3 add-product">
-                                        <label class="form-label">Product Name</label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required placeholder="Enter Product Name">
-                                        @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="input-blocks add-product list">
-                                        <label>SKU</label>
-                                        <input type="text" class="form-control list @error('sku') is-invalid @enderror" name="sku" value="{{ old('sku') }}" placeholder="Enter SKU">
-                                        @error('sku')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="input-blocks add-product">
-                                        <label>Image</label>
-                                        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
-                                        @error('image')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="addservice-info">
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
                                 <div class="row">
                                     <div class="col-lg-4 col-sm-6 col-12">
                                         <div class="mb-3 add-product">
-                                            <div class="add-newplus">
-                                                <label class="form-label">Category</label>
-                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add-units-category"><i data-feather="plus-circle" class="plus-down-add"></i><span>Add New</span></a>
-                                            </div>
-                                            <select class="select @error('category_id') is-invalid @enderror" name="category_id">
-                                                <option value=" " selected>Select category</option>
-                                                @foreach($categories as $category)
-                                                    <option @if(old('category_id') == $category->id ) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('category_id')
+                                            <label class="form-label">Product Name</label>
+                                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required placeholder="Enter Product Name">
+                                            @error('name')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -94,18 +49,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="mb-3 add-product">
-                                            <div class="add-newplus">
-                                                <label class="form-label">Brand</label>
-                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add-units-brand"><i data-feather="plus-circle" class="plus-down-add"></i><span>Add New</span></a>
-                                            </div>
-                                            <select class="select @error('brand_id') is-invalid @enderror" name="brand_id">
-                                                <option value=" " selected> Select brand</option>
-                                                @foreach($brands as $brand)
-                                                    <option @if(old('brand_id') == $brand->id ) selected @endif value="{{ $brand->id }}">{{ $brand->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('brand_id')
+                                        <div class="input-blocks add-product list">
+                                            <label>SKU</label>
+                                            <input type="text" class="form-control list @error('sku') is-invalid @enderror" name="sku" value="{{ old('sku') }}" placeholder="Enter SKU">
+                                            @error('sku')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -113,18 +60,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="mb-3 add-product">
-                                            <div class="add-newplus">
-                                                <label class="form-label">Unit</label>
-                                                <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add-unit"><i data-feather="plus-circle" class="plus-down-add"></i><span>Add New</span></a>
-                                            </div>
-                                            <select class="select @error('unit_id') is-invalid @enderror" name="unit_id">
-                                                <option value=" " selected> Select unit</option>
-                                                @foreach($units as $unit)
-                                                    <option @if(old('unit_id') == $unit->id ) selected @endif value="{{ $unit->id }}">{{ $unit->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('unit_id')
+                                        <div class="input-blocks add-product">
+                                            <label>Image</label>
+                                            <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+                                            @error('image')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
@@ -132,176 +71,237 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>		
-                            <div class="row">
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="mb-3 add-product">
-                                        <label class="form-label">Barcode Type</label>
-                                        <select class="select @error('barcode_type') is-invalid @enderror" name="barcode_type">
-                                            <option value="code_128">Code 128 (C128)</option>
-                                            <option value="code_39">Code 39 (C39)</option>
-                                            <option value="ean_13">EAN-13</option>
-                                            <option value="ean_8">EAN-8</option>
-                                            <option value="upc_a">UPC-A</option>
-                                            <option value="upc_e">UPC-E</option>
-                                        </select>
-                                        @error('barcode_type')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="input-blocks add-product">
-                                        <label>Quantity Alert</label>
-                                        <input type="number" class="form-control @error('alert_quantity') is-invalid @enderror" name="alert_quantity" value="{{ old('alert_quantity') }}" placeholder="Enter Quantity Alert">
-                                        @error('alert_quantity')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="mb-3 add-product">
-                                        <div class="add-newplus">
-                                            <label class="form-label">Not For Selling</label>
-                                        </div>
-                                        <select class="select @error('not_for_selling') is-invalid @enderror" name="not_for_selling">
-                                            <option value="0" selected>No</option>
-                                            <option value="1">Yes</option>
-                                        </select>
-                                        @error('not_for_selling')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="mb-3 add-product">
-                                        <div class="add-newplus">
-                                            <label class="form-label">Selling Price Tax Type</label>
-                                        </div>
-                                        <select class="select @error('selling_price_tax_type') is-invalid @enderror" name="selling_price_tax_type">
-                                            <option value="inclusive" selected>Inclusive</option>
-                                            <option value="exclusive">Exclusive</option>
-                                        </select>
-                                        @error('selling_price_tax_type')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-sm-6 col-12">
-                                    <div class="mb-3 add-product">
-                                        <div class="add-newplus">
-                                            <label class="form-label">Status</label>
-                                        </div>
-                                        <select class="select @error('status') is-invalid @enderror" name="status">
-                                            <option value="active" selected>Active</option>
-                                            <option value="inactive">Inactive</option>
-                                        </select>
-                                        @error('status')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Editor -->
-                            <div class="col-lg-12">
-                                <div class="input-blocks summer-description-box transfer mb-3">
-                                    <label>Description</label>
-                                    <textarea class="form-control h-100 @error('description') is-invalid @enderror" rows="5" name="description" value="{{ old('description') }}" required placeholder="Enter Description"></textarea>
-                                    @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!-- /Editor -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-card-one accordion" id="accordionExample2">
-                <div class="accordion-item">
-                    <div class="accordion-header" id="headingTwo">
-                    <div class="accordion-button">
-                        <div class="text-editor add-list">
-                            <div class="addproduct-icon list icon">
-                                <h5><i data-feather="life-buoy" class="add-info"></i><span>Opening Stock</span></h5>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample2">
-                        <div class="accordion-body">
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                                    <div class="form-check form-check-md d-flex align-items-center mb-4">
-                                        <input class="form-check-input" type="checkbox" name="add_opening_stock" id="add_opening_stock" value="1" @if(old('add_opening_stock')) checked @endif>
-                                        <label class="form-check-label" for="add_opening_stock">
-                                            Add Opening Stock 
-                                        </label>
-                                    </div>
-
-                                    <div class="row d-none" id="opening_stock_div">
-                                        <div class="col-lg-3 col-sm-6 col-12">
-                                            <div class="input-blocks add-product">
-                                                <label>Supplier</label>
-                                                <select class="select @error('supplier_id') is-invalid @enderror" name="supplier_id">
-                                                    <option value="" selected>Select supplier</option>
-                                                    @foreach($suppliers as $supplier)
-                                                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                <div class="addservice-info">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-6 col-12">
+                                            <div class="mb-3 add-product">
+                                                <div class="add-newplus">
+                                                    <label class="form-label">Category</label>
+                                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add-units-category"><i data-feather="plus-circle" class="plus-down-add"></i><span>Add New</span></a>
+                                                </div>
+                                                <select class="select @error('category_id') is-invalid @enderror" name="category_id">
+                                                    <option value=" " selected>Select category</option>
+                                                    @foreach($categories as $category)
+                                                        <option @if(old('category_id') == $category->id ) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('supplier_id')
+                                                @error('category_id')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-sm-6 col-12">
-                                            <div class="input-blocks add-product">
-                                                <label>Quantity Remaining</label>
-                                                <input type="number" step="any" class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity') }}" placeholder="Enter Stock Quantity">
-                                                @error('quantity')
+                                        <div class="col-lg-4 col-sm-6 col-12">
+                                            <div class="mb-3 add-product">
+                                                <div class="add-newplus">
+                                                    <label class="form-label">Brand</label>
+                                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add-units-brand"><i data-feather="plus-circle" class="plus-down-add"></i><span>Add New</span></a>
+                                                </div>
+                                                <select class="select @error('brand_id') is-invalid @enderror" name="brand_id">
+                                                    <option value=" " selected> Select brand</option>
+                                                    @foreach($brands as $brand)
+                                                        <option @if(old('brand_id') == $brand->id ) selected @endif value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('brand_id')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-sm-6 col-12">
-                                            <div class="input-blocks add-product">
-                                                <label>Purchase Price</label>
-                                                <input type="text" step="any" class="form-control @error('purchase_price') is-invalid @enderror" name="purchase_price" value="{{ old('purchase_price') }}" placeholder="Enter Purchase Price">
-                                                @error('purchase_price')
+                                        <div class="col-lg-4 col-sm-6 col-12">
+                                            <div class="mb-3 add-product">
+                                                <div class="add-newplus">
+                                                    <label class="form-label">Unit</label>
+                                                    <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add-unit"><i data-feather="plus-circle" class="plus-down-add"></i><span>Add New</span></a>
+                                                </div>
+                                                <select class="select @error('unit_id') is-invalid @enderror" name="unit_id">
+                                                    <option value=" " selected> Select unit</option>
+                                                    @foreach($units as $unit)
+                                                        <option @if(old('unit_id') == $unit->id ) selected @endif value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('unit_id')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-sm-6 col-12">
-                                            <div class="input-blocks add-product">
-                                                <label>Selling Price</label>
-                                                <input type="number" step="any" class="form-control @error('selling_price') is-invalid @enderror" name="selling_price" value="{{ old('selling_price') }}" placeholder="Enter Selling Price">
-                                                @error('selling_price')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
+                                    </div>
+                                </div>		
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="mb-3 add-product">
+                                            <label class="form-label">Barcode Type</label>
+                                            <select class="select @error('barcode_type') is-invalid @enderror" name="barcode_type">
+                                                <option value="code_128">Code 128 (C128)</option>
+                                                <option value="code_39">Code 39 (C39)</option>
+                                                <option value="ean_13">EAN-13</option>
+                                                <option value="ean_8">EAN-8</option>
+                                                <option value="upc_a">UPC-A</option>
+                                                <option value="upc_e">UPC-E</option>
+                                            </select>
+                                            @error('barcode_type')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
-                                    </div>			
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="input-blocks add-product">
+                                            <label>Quantity Alert</label>
+                                            <input type="number" class="form-control @error('alert_quantity') is-invalid @enderror" name="alert_quantity" value="{{ old('alert_quantity') }}" placeholder="Enter Quantity Alert">
+                                            @error('alert_quantity')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="mb-3 add-product">
+                                            <div class="add-newplus">
+                                                <label class="form-label">Not For Selling</label>
+                                            </div>
+                                            <select class="select @error('not_for_selling') is-invalid @enderror" name="not_for_selling">
+                                                <option value="0" selected>No</option>
+                                                <option value="1">Yes</option>
+                                            </select>
+                                            @error('not_for_selling')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="mb-3 add-product">
+                                            <div class="add-newplus">
+                                                <label class="form-label">Selling Price Tax Type</label>
+                                            </div>
+                                            <select class="select @error('selling_price_tax_type') is-invalid @enderror" name="selling_price_tax_type">
+                                                <option value="inclusive" selected>Inclusive</option>
+                                                <option value="exclusive">Exclusive</option>
+                                            </select>
+                                            @error('selling_price_tax_type')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="mb-3 add-product">
+                                            <div class="add-newplus">
+                                                <label class="form-label">Status</label>
+                                            </div>
+                                            <select class="select @error('status') is-invalid @enderror" name="status">
+                                                <option value="active" selected>Active</option>
+                                                <option value="inactive">Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Editor -->
+                                <div class="col-lg-12">
+                                    <div class="input-blocks summer-description-box transfer mb-3">
+                                        <label>Description</label>
+                                        <textarea class="form-control h-100 @error('description') is-invalid @enderror" rows="5" name="description" value="{{ old('description') }}" required placeholder="Enter Description"></textarea>
+                                        @error('description')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <!-- /Editor -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-card-one accordion" id="accordionExample2">
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="headingTwo">
+                        <div class="accordion-button">
+                            <div class="text-editor add-list">
+                                <div class="addproduct-icon list icon">
+                                    <h5><i data-feather="life-buoy" class="add-info"></i><span>Opening Stock</span></h5>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample2">
+                            <div class="accordion-body">
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                        <div class="form-check form-check-md d-flex align-items-center mb-4">
+                                            <input class="form-check-input" type="checkbox" name="add_opening_stock" id="add_opening_stock" value="1" @if(old('add_opening_stock')) checked @endif>
+                                            <label class="form-check-label" for="add_opening_stock">
+                                                Add Opening Stock 
+                                            </label>
+                                        </div>
+
+                                        <div class="row d-none" id="opening_stock_div">
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="input-blocks add-product">
+                                                    <label>Supplier</label>
+                                                    <select class="select @error('supplier_id') is-invalid @enderror" name="supplier_id">
+                                                        <option value="" selected>Select supplier</option>
+                                                        @foreach($suppliers as $supplier)
+                                                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('supplier_id')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="input-blocks add-product">
+                                                    <label>Quantity Remaining</label>
+                                                    <input type="number" step="any" class="form-control @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity') }}" placeholder="Enter Stock Quantity">
+                                                    @error('quantity')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="input-blocks add-product">
+                                                    <label>Purchase Price</label>
+                                                    <input type="text" step="any" class="form-control @error('purchase_price') is-invalid @enderror" name="purchase_price" value="{{ old('purchase_price') }}" placeholder="Enter Purchase Price">
+                                                    @error('purchase_price')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="input-blocks add-product">
+                                                    <label>Selling Price</label>
+                                                    <input type="number" step="any" class="form-control @error('selling_price') is-invalid @enderror" name="selling_price" value="{{ old('selling_price') }}" placeholder="Enter Selling Price">
+                                                    @error('selling_price')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>			
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -309,14 +309,13 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-12">
-        <div class="btn-addproduct mb-4">
-            <button type="button" class="btn btn-cancel me-2">Cancel</button>
-            <button type="submit" class="btn btn-submit">Save Product</button>
+        <div class="col-lg-12">
+            <div class="btn-addproduct mb-4">
+                <button type="button" class="btn btn-cancel me-2">Cancel</button>
+                <button type="submit" class="btn btn-submit">Save Product</button>
+            </div>
         </div>
-    </div>
-  </form>
+    </form>
 
 
 	<!-- Add Category Modal -->
@@ -469,9 +468,7 @@
             </div>
         </div>
 	</div>
-	<!-- /Add Unit Modal -->
-  </div>
-</div>
+
 @endsection
 
 @section('css')

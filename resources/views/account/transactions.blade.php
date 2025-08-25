@@ -8,11 +8,23 @@
       <h6>View and manage transactions</h6>
     </div>
   </div>
-  <div class="page-btn">
-    <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#depositModal"><i data-feather="arrow-down-circle" class="me-2"></i>Deposit</button>
-    <button class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#withdrawModal"><i data-feather="arrow-up-circle" class="me-2"></i>Withdraw</button>
-    <button class="btn btn-added" data-bs-toggle="modal" data-bs-target="#transferModal"><i data-feather="shuffle" class="me-2"></i>Transfer</button>
-  </div>
+  <ul class="table-top-head">
+    <li>
+        <div class="page-btn">
+          <button class="btn btn-success btn-sm me-1" data-bs-toggle="modal" data-bs-target="#depositModal"><i data-feather="arrow-down-circle" class="me-2"></i>Deposit</button>
+        </div>
+    </li>
+    <li>
+        <div class="page-btn">
+          <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#withdrawModal"><i data-feather="arrow-up-circle" class="me-2"></i>Withdraw</button>
+        </div>
+    </li>
+    <li>
+        <div class="page-btn">
+          <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#transferModal"><i data-feather="shuffle" class="me-2"></i>Transfer</button>
+        </div>
+    </li>
+</ul>
 </div>
 
 <div class="card table-list-card">
@@ -24,6 +36,7 @@
             <th>Date</th>
             <th>Account</th>
             <th>Type</th>
+            <th>Transacted Type</th>
             <th class="text-end">Amount</th>
             <th>Note</th>
           </tr>
@@ -34,6 +47,15 @@
             <td>{{ optional($t->transacted_at)->format('d-m-Y H:i') ?? $t->created_at->format('d-m-Y H:i') }}</td>
             <td>{{ $t->account->name }}</td>
             <td class="text-capitalize">{{ str_replace('_',' ',$t->type) }}</td>
+            <td class="text-capitalize">
+              @if ($t->transactionable_type == 'credit')
+                <span class="badge bg-success">Credit</span>
+              @elseif ($t->transactionable_type == 'debate')
+                <span class="badge bg-danger">Debate</span>
+              @else
+                <span class="badge bg-info">N/A</span>
+              @endif
+            </td>
             <td class="text-end">{{ number_format($t->amount,2) }}</td>
             <td>{{ $t->note }}</td>
           </tr>
@@ -73,7 +95,8 @@
       <div class="modal-body">
         <div class="mb-3">
           <label class="form-label">Account</label>
-          <select name="account_id" class="form-select select" required>
+          <select name="account_id" class="form-select" required aria-label="Select account">
+            <option value="">Select a account</option>
             @foreach(\App\Models\Account::forUserBusiness()->where('is_active',true)->orderBy('name')->get() as $acc)
               <option value="{{ $acc->id }}">{{ $acc->name }}</option>
             @endforeach
@@ -108,9 +131,10 @@
       <div class="modal-body">
         <div class="mb-3">
           <label class="form-label">Account</label>
-          <select name="account_id" class="form-select select" required>
+          <select name="account_id" class="form-select" required>
+            <option value="" selected>Select a account</option>
             @foreach(\App\Models\Account::forUserBusiness()->where('is_active',true)->orderBy('name')->get() as $acc)
-              <option value="{{ $acc->id }}">{{ $acc->name }}</option>
+              <option value="{{ $acc->id }}">{{ $acc->name }} ({{ number_format($acc->current_balance,2) }})</option>
             @endforeach
           </select>
         </div>
@@ -143,7 +167,8 @@
       <div class="modal-body">
         <div class="mb-3">
           <label class="form-label">From Account</label>
-          <select name="from_account_id" class="form-select select" required>
+          <select name="from_account_id" class="form-select" required>
+            <option value="" selected>Select from account</option>
             @foreach(\App\Models\Account::forUserBusiness()->where('is_active',true)->orderBy('name')->get() as $acc)
               <option value="{{ $acc->id }}">{{ $acc->name }} ({{ number_format($acc->current_balance,2) }})</option>
             @endforeach
@@ -151,7 +176,8 @@
         </div>
         <div class="mb-3">
           <label class="form-label">To Account</label>
-          <select name="to_account_id" class="form-select select" required>
+          <select name="to_account_id" class="form-select" required>
+            <option value="" selected>Select to account</option>
             @foreach(\App\Models\Account::forUserBusiness()->where('is_active',true)->orderBy('name')->get() as $acc)
               <option value="{{ $acc->id }}">{{ $acc->name }}</option>
             @endforeach
@@ -181,16 +207,7 @@
 
 @section('js')
   <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
-  <script>
-    (function($){
-      'use strict';
-      $(function(){
-        if ($.fn.select2) {
-          $('.select').select2({ theme: 'bootstrap-5', width: '100%' });
-        }
-      });
-    })(jQuery);
-  </script>
+
 @endsection
 
 

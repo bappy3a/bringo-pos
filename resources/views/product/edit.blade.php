@@ -3,439 +3,435 @@
 @section('title', 'Edit Product')
 
 @section('content')
-<div class="page-wrapper">
-  <div class="content">
-    <div class="page-header">
-        <div class="add-item d-flex">
-            <div class="page-title">
-                <h4>Edit Product</h4>
-                <h6>Update product information</h6>
-            </div>
+<div class="page-header">
+    <div class="add-item d-flex">
+        <div class="page-title">
+            <h4>Edit Product</h4>
+            <h6>Update product information</h6>
         </div>
-        <ul class="table-top-head">
-            <li>
-                <div class="page-btn">
-                    <a href="{{ route('products.index') }}" class="btn btn-secondary"><i data-feather="arrow-left"
-                            class="me-2"></i>Back to Products</a>
-                </div>
-            </li>
-        </ul>
     </div>
+    <ul class="table-top-head">
+        <li>
+            <div class="page-btn">
+                <a href="{{ route('products.index') }}" class="btn btn-secondary"><i data-feather="arrow-left"
+                        class="me-2"></i>Back to Products</a>
+            </div>
+        </li>
+    </ul>
+</div>
 
-    <form action="{{ route('products.update', $product->id) }}" method="post" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        <div class="card">
-            <div class="card-body add-product pb-0">
-                <div class="accordion-card-one accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <div class="accordion-header" id="headingOne">
-                            <div class="accordion-button">
-                                <div class="addproduct-icon">
-                                    <h5><i data-feather="info" class="add-info"></i><span>Product Information</span></h5>
-                                </div>
+<form action="{{ route('products.update', $product->id) }}" method="post" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+    <div class="card">
+        <div class="card-body add-product pb-0">
+            <div class="accordion-card-one accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <div class="accordion-header" id="headingOne">
+                        <div class="accordion-button">
+                            <div class="addproduct-icon">
+                                <h5><i data-feather="info" class="add-info"></i><span>Product Information</span></h5>
                             </div>
                         </div>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <div class="row">
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="mb-3 add-product">
-                                            <label class="form-label">Product Name</label>
-                                            <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                                name="name" value="{{ old('name', $product->name) }}" required
-                                                placeholder="Enter Product Name">
-                                            @error('name')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="input-blocks add-product list">
-                                            <label>SKU</label>
-                                            <input type="text" class="form-control list @error('sku') is-invalid @enderror"
-                                                name="sku" value="{{ old('sku', $product->sku) }}" placeholder="Enter SKU">
-                                            @error('sku')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="input-blocks add-product">
-                                            <label>Image</label>
-                                            <div class="row">
-                                                <div class="col-9">
-                                                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
-                                                </div>
-                                                <div class="col-3">
-                                                    @if($product->images)
-                                                        <img  src="{{ asset($product->images) }}" alt="Current Product Image" class="img-thumbnail product-edit-image">
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            
-                                            
-                                            @error('image')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="addservice-info">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-sm-6 col-12">
-                                            <div class="mb-3 add-product">
-                                                <div class="add-newplus">
-                                                    <label class="form-label">Category</label>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#add-units-category"><i data-feather="plus-circle"
-                                                            class="plus-down-add"></i><span>Add New</span></a>
-                                                </div>
-                                                <select class="select @error('category_id') is-invalid @enderror"
-                                                    name="category_id">
-                                                    <option value="">Select category</option>
-                                                    @foreach($categories as $category)
-                                                        <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                                            {{ $category->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('category_id')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-6 col-12">
-                                            <div class="mb-3 add-product">
-                                                <div class="add-newplus">
-                                                    <label class="form-label">Brand</label>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#add-units-brand"><i data-feather="plus-circle"
-                                                            class="plus-down-add"></i><span>Add New</span></a>
-                                                </div>
-                                                <select class="select @error('brand_id') is-invalid @enderror"
-                                                    name="brand_id">
-                                                    <option value="">Select brand</option>
-                                                    @foreach($brands as $brand)
-                                                        <option value="{{ $brand->id }}" {{ old('brand_id', $product->brand_id) == $brand->id ? 'selected' : '' }}>
-                                                            {{ $brand->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('brand_id')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-6 col-12">
-                                            <div class="mb-3 add-product">
-                                                <div class="add-newplus">
-                                                    <label class="form-label">Unit</label>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#add-unit"><i data-feather="plus-circle"
-                                                            class="plus-down-add"></i><span>Add New</span></a>
-                                                </div>
-                                                <select class="select @error('unit_id') is-invalid @enderror"
-                                                    name="unit_id">
-                                                    <option value="">Select unit</option>
-                                                    @foreach($units as $unit)
-                                                        <option value="{{ $unit->id }}" {{ old('unit_id', $product->unit_id) == $unit->id ? 'selected' : '' }}>
-                                                            {{ $unit->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('unit_id')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="mb-3 add-product">
-                                            <label class="form-label">Barcode Type</label>
-                                            <select class="select @error('barcode_type') is-invalid @enderror"
-                                                name="barcode_type">
-                                                <option value="code_128" {{ old('barcode_type', $product->barcode_type) == 'code_128' ? 'selected' : '' }}>Code 128 (C128)
-                                                </option>
-                                                <option value="code_39" {{ old('barcode_type', $product->barcode_type) == 'code_39' ? 'selected' : '' }}>Code 39 (C39)
-                                                </option>
-                                                <option value="ean_13" {{ old('barcode_type', $product->barcode_type) == 'ean_13' ? 'selected' : '' }}>EAN-13</option>
-                                                <option value="ean_8" {{ old('barcode_type', $product->barcode_type) == 'ean_8' ? 'selected' : '' }}>EAN-8</option>
-                                                <option value="upc_a" {{ old('barcode_type', $product->barcode_type) == 'upc_a' ? 'selected' : '' }}>UPC-A</option>
-                                                <option value="upc_e" {{ old('barcode_type', $product->barcode_type) == 'upc_e' ? 'selected' : '' }}>UPC-E</option>
-                                            </select>
-                                            @error('barcode_type')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="input-blocks add-product">
-                                            <label>Quantity Alert</label>
-                                            <input type="number"
-                                                class="form-control @error('alert_quantity') is-invalid @enderror"
-                                                name="alert_quantity"
-                                                value="{{ old('alert_quantity', $product->alert_quantity) }}"
-                                                placeholder="Enter Quantity Alert">
-                                            @error('alert_quantity')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="mb-3 add-product">
-                                            <div class="add-newplus">
-                                                <label class="form-label">Not For Selling</label>
-                                            </div>
-                                            <select class="select @error('not_for_selling') is-invalid @enderror"
-                                                name="not_for_selling">
-                                                <option value="0" {{ old('not_for_selling', $product->not_for_selling) == '0' ? 'selected' : '' }}>No</option>
-                                                <option value="1" {{ old('not_for_selling', $product->not_for_selling) == '1' ? 'selected' : '' }}>Yes</option>
-                                            </select>
-                                            @error('not_for_selling')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="mb-3 add-product">
-                                            <div class="add-newplus">
-                                                <label class="form-label">Selling Price Tax Type</label>
-                                            </div>
-                                            <select class="select @error('selling_price_tax_type') is-invalid @enderror"
-                                                name="selling_price_tax_type">
-                                                <option value="inclusive" {{ old('selling_price_tax_type', $product->selling_price_tax_type) == 'inclusive' ? 'selected' : '' }}>
-                                                    Inclusive</option>
-                                                <option value="exclusive" {{ old('selling_price_tax_type', $product->selling_price_tax_type) == 'exclusive' ? 'selected' : '' }}>
-                                                    Exclusive</option>
-                                            </select>
-                                            @error('selling_price_tax_type')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-sm-6 col-12">
-                                        <div class="mb-3 add-product">
-                                            <div class="add-newplus">
-                                                <label class="form-label">Status</label>
-                                            </div>
-                                            <select class="select @error('status') is-invalid @enderror" name="status">
-                                                <option value="active" {{ old('status', $product->status) == 'active' ? 'selected' : '' }}>Active</option>
-                                                <option value="inactive" {{ old('status', $product->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                                            </select>
-                                            @error('status')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Editor -->
-                                <div class="col-lg-12">
-                                    <div class="input-blocks summer-description-box transfer mb-3">
-                                        <label>Description</label>
-                                        <textarea class="form-control h-100 @error('description') is-invalid @enderror"
-                                            rows="5" name="description" required
-                                            placeholder="Enter Description">{{ old('description', $product->description) }}</textarea>
-                                        @error('description')
+                    </div>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="mb-3 add-product">
+                                        <label class="form-label">Product Name</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            name="name" value="{{ old('name', $product->name) }}" required
+                                            placeholder="Enter Product Name">
+                                        @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                     </div>
                                 </div>
-                                <!-- /Editor -->
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="input-blocks add-product list">
+                                        <label>SKU</label>
+                                        <input type="text" class="form-control list @error('sku') is-invalid @enderror"
+                                            name="sku" value="{{ old('sku', $product->sku) }}" placeholder="Enter SKU">
+                                        @error('sku')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="input-blocks add-product">
+                                        <label>Image</label>
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+                                            </div>
+                                            <div class="col-3">
+                                                @if($product->images)
+                                                    <img  src="{{ asset($product->images) }}" alt="Current Product Image" class="img-thumbnail product-edit-image">
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        @error('image')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
+                            <div class="addservice-info">
+                                <div class="row">
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="mb-3 add-product">
+                                            <div class="add-newplus">
+                                                <label class="form-label">Category</label>
+                                                <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                    data-bs-target="#add-units-category"><i data-feather="plus-circle"
+                                                        class="plus-down-add"></i><span>Add New</span></a>
+                                            </div>
+                                            <select class="select @error('category_id') is-invalid @enderror"
+                                                name="category_id">
+                                                <option value="">Select category</option>
+                                                @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                                        {{ $category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('category_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="mb-3 add-product">
+                                            <div class="add-newplus">
+                                                <label class="form-label">Brand</label>
+                                                <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                    data-bs-target="#add-units-brand"><i data-feather="plus-circle"
+                                                        class="plus-down-add"></i><span>Add New</span></a>
+                                            </div>
+                                            <select class="select @error('brand_id') is-invalid @enderror"
+                                                name="brand_id">
+                                                <option value="">Select brand</option>
+                                                @foreach($brands as $brand)
+                                                    <option value="{{ $brand->id }}" {{ old('brand_id', $product->brand_id) == $brand->id ? 'selected' : '' }}>
+                                                        {{ $brand->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('brand_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6 col-12">
+                                        <div class="mb-3 add-product">
+                                            <div class="add-newplus">
+                                                <label class="form-label">Unit</label>
+                                                <a href="javascript:void(0);" data-bs-toggle="modal"
+                                                    data-bs-target="#add-unit"><i data-feather="plus-circle"
+                                                        class="plus-down-add"></i><span>Add New</span></a>
+                                            </div>
+                                            <select class="select @error('unit_id') is-invalid @enderror"
+                                                name="unit_id">
+                                                <option value="">Select unit</option>
+                                                @foreach($units as $unit)
+                                                    <option value="{{ $unit->id }}" {{ old('unit_id', $product->unit_id) == $unit->id ? 'selected' : '' }}>
+                                                        {{ $unit->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('unit_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="mb-3 add-product">
+                                        <label class="form-label">Barcode Type</label>
+                                        <select class="select @error('barcode_type') is-invalid @enderror"
+                                            name="barcode_type">
+                                            <option value="code_128" {{ old('barcode_type', $product->barcode_type) == 'code_128' ? 'selected' : '' }}>Code 128 (C128)
+                                            </option>
+                                            <option value="code_39" {{ old('barcode_type', $product->barcode_type) == 'code_39' ? 'selected' : '' }}>Code 39 (C39)
+                                            </option>
+                                            <option value="ean_13" {{ old('barcode_type', $product->barcode_type) == 'ean_13' ? 'selected' : '' }}>EAN-13</option>
+                                            <option value="ean_8" {{ old('barcode_type', $product->barcode_type) == 'ean_8' ? 'selected' : '' }}>EAN-8</option>
+                                            <option value="upc_a" {{ old('barcode_type', $product->barcode_type) == 'upc_a' ? 'selected' : '' }}>UPC-A</option>
+                                            <option value="upc_e" {{ old('barcode_type', $product->barcode_type) == 'upc_e' ? 'selected' : '' }}>UPC-E</option>
+                                        </select>
+                                        @error('barcode_type')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="input-blocks add-product">
+                                        <label>Quantity Alert</label>
+                                        <input type="number"
+                                            class="form-control @error('alert_quantity') is-invalid @enderror"
+                                            name="alert_quantity"
+                                            value="{{ old('alert_quantity', $product->alert_quantity) }}"
+                                            placeholder="Enter Quantity Alert">
+                                        @error('alert_quantity')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="mb-3 add-product">
+                                        <div class="add-newplus">
+                                            <label class="form-label">Not For Selling</label>
+                                        </div>
+                                        <select class="select @error('not_for_selling') is-invalid @enderror"
+                                            name="not_for_selling">
+                                            <option value="0" {{ old('not_for_selling', $product->not_for_selling) == '0' ? 'selected' : '' }}>No</option>
+                                            <option value="1" {{ old('not_for_selling', $product->not_for_selling) == '1' ? 'selected' : '' }}>Yes</option>
+                                        </select>
+                                        @error('not_for_selling')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="mb-3 add-product">
+                                        <div class="add-newplus">
+                                            <label class="form-label">Selling Price Tax Type</label>
+                                        </div>
+                                        <select class="select @error('selling_price_tax_type') is-invalid @enderror"
+                                            name="selling_price_tax_type">
+                                            <option value="inclusive" {{ old('selling_price_tax_type', $product->selling_price_tax_type) == 'inclusive' ? 'selected' : '' }}>
+                                                Inclusive</option>
+                                            <option value="exclusive" {{ old('selling_price_tax_type', $product->selling_price_tax_type) == 'exclusive' ? 'selected' : '' }}>
+                                                Exclusive</option>
+                                        </select>
+                                        @error('selling_price_tax_type')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 col-12">
+                                    <div class="mb-3 add-product">
+                                        <div class="add-newplus">
+                                            <label class="form-label">Status</label>
+                                        </div>
+                                        <select class="select @error('status') is-invalid @enderror" name="status">
+                                            <option value="active" {{ old('status', $product->status) == 'active' ? 'selected' : '' }}>Active</option>
+                                            <option value="inactive" {{ old('status', $product->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                        </select>
+                                        @error('status')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Editor -->
+                            <div class="col-lg-12">
+                                <div class="input-blocks summer-description-box transfer mb-3">
+                                    <label>Description</label>
+                                    <textarea class="form-control h-100 @error('description') is-invalid @enderror"
+                                        rows="5" name="description" required
+                                        placeholder="Enter Description">{{ old('description', $product->description) }}</textarea>
+                                    @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <!-- /Editor -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-12">
-            <div class="btn-addproduct mb-4">
-                <button type="button" class="btn btn-cancel me-2" onclick="window.history.back()">Cancel</button>
-                <button type="submit" class="btn btn-submit">Update Product</button>
-            </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="btn-addproduct mb-4">
+            <button type="button" class="btn btn-cancel me-2" onclick="window.history.back()">Cancel</button>
+            <button type="submit" class="btn btn-submit">Update Product</button>
         </div>
-    </form>
+    </div>
+</form>
 
 
-    <!-- Add Category Modal -->
-    <div class="modal fade" id="add-units-category" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="categoryModalLabel">
-                        <i class="fas fa-plus-circle me-2"></i>Create New Category
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="category-form" enctype="multipart/form-data" novalidate>
-                        @csrf
-                        <div class="mb-3">
-                            <label for="category_name" class="form-label fw-bold">Category Name <span
-                                    class="text-danger">*</span></label>
-                            <input name="name" id="category_name" type="text" class="form-control"
-                                placeholder="Enter category name" required maxlength="255" autocomplete="off">
-                            <div class="invalid-feedback" id="category_name_error"></div>
+<!-- Add Category Modal -->
+<div class="modal fade" id="add-units-category" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="categoryModalLabel">
+                    <i class="fas fa-plus-circle me-2"></i>Create New Category
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="category-form" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    <div class="mb-3">
+                        <label for="category_name" class="form-label fw-bold">Category Name <span
+                                class="text-danger">*</span></label>
+                        <input name="name" id="category_name" type="text" class="form-control"
+                            placeholder="Enter category name" required maxlength="255" autocomplete="off">
+                        <div class="invalid-feedback" id="category_name_error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category_code" class="form-label fw-bold">Category Code</label>
+                        <input name="code" id="category_code" type="text" class="form-control"
+                            placeholder="Enter category code (optional)" maxlength="50" autocomplete="off">
+                        <div class="invalid-feedback" id="category_code_error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category_image" class="form-label fw-bold">Category Image</label>
+                        <input name="image" id="category_image" class="form-control" type="file" accept="image/*">
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Recommended size: 40x40 pixels. Max file size: 2MB
                         </div>
-                        <div class="mb-3">
-                            <label for="category_code" class="form-label fw-bold">Category Code</label>
-                            <input name="code" id="category_code" type="text" class="form-control"
-                                placeholder="Enter category code (optional)" maxlength="50" autocomplete="off">
-                            <div class="invalid-feedback" id="category_code_error"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="category_image" class="form-label fw-bold">Category Image</label>
-                            <input name="image" id="category_image" class="form-control" type="file" accept="image/*">
-                            <div class="form-text">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Recommended size: 40x40 pixels. Max file size: 2MB
-                            </div>
-                            <div class="invalid-feedback" id="category_image_error"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="category_description" class="form-label fw-bold">Description</label>
-                            <textarea name="description" id="category_description" class="form-control" rows="3"
-                                placeholder="Enter category description (optional)" maxlength="500"></textarea>
-                            <div class="invalid-feedback" id="category_description_error"></div>
-                        </div>
-                        <div class="modal-footer border-0 px-0 pb-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times me-1"></i>Cancel
-                            </button>
-                            <button type="submit" class="btn btn-primary" id="category_submit_btn">
-                                <i class="fas fa-save me-1"></i>Create Category
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                        <div class="invalid-feedback" id="category_image_error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category_description" class="form-label fw-bold">Description</label>
+                        <textarea name="description" id="category_description" class="form-control" rows="3"
+                            placeholder="Enter category description (optional)" maxlength="500"></textarea>
+                        <div class="invalid-feedback" id="category_description_error"></div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="category_submit_btn">
+                            <i class="fas fa-save me-1"></i>Create Category
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <!-- /Add Category Modal -->
-
-    <!-- Add Brand Modal -->
-    <div class="modal fade" id="add-units-brand" tabindex="-1" aria-labelledby="brandModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="brandModalLabel">
-                        <i class="fas fa-tag me-2"></i>Create New Brand
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="brand-form" enctype="multipart/form-data" novalidate>
-                        @csrf
-                        <div class="mb-3">
-                            <label for="brand_name" class="form-label fw-bold">Brand Name <span
-                                    class="text-danger">*</span></label>
-                            <input name="name" id="brand_name" type="text" class="form-control"
-                                placeholder="Enter brand name" required maxlength="255" autocomplete="off">
-                            <div class="invalid-feedback" id="brand_name_error"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="brand_description" class="form-label fw-bold">Description</label>
-                            <textarea name="description" id="brand_description" class="form-control" rows="3"
-                                placeholder="Enter brand description (optional)" maxlength="500"></textarea>
-                            <div class="invalid-feedback" id="brand_description_error"></div>
-                        </div>
-                        <div class="modal-footer border-0 px-0 pb-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times me-1"></i>Cancel
-                            </button>
-                            <button type="submit" class="btn btn-success" id="brand_submit_btn">
-                                <i class="fas fa-save me-1"></i>Create Brand
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Add Brand Modal -->
-
-    <!-- Add Unit Modal -->
-    <div class="modal fade" id="add-unit" tabindex="-1" aria-labelledby="unitModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title" id="unitModalLabel">
-                        <i class="fas fa-ruler me-2"></i>Create New Unit
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="unit-form" enctype="multipart/form-data" novalidate>
-                        @csrf
-                        <div class="mb-3">
-                            <label for="unit_name" class="form-label fw-bold">Unit Name <span
-                                    class="text-danger">*</span></label>
-                            <input name="name" id="unit_name" type="text" class="form-control" placeholder="Enter unit name"
-                                required maxlength="255" autocomplete="off">
-                            <div class="invalid-feedback" id="unit_name_error"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="unit_allow_decimal" class="form-label fw-bold">Allow Decimal <span
-                                    class="text-danger">*</span></label>
-                            <select name="allow_decimal" id="unit_allow_decimal" class="form-select" required>
-                                <option value="">Select option</option>
-                                <option value="1">Yes - Allow decimal values</option>
-                                <option value="0">No - Only whole numbers</option>
-                            </select>
-                            <div class="invalid-feedback" id="unit_allow_decimal_error"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="unit_description" class="form-label fw-bold">Description</label>
-                            <textarea name="description" id="unit_description" class="form-control" rows="3"
-                                placeholder="Enter unit description (optional)" maxlength="500"></textarea>
-                            <div class="invalid-feedback" id="unit_description_error"></div>
-                        </div>
-                        <div class="modal-footer border-0 px-0 pb-0">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times me-1"></i>Cancel
-                            </button>
-                            <button type="submit" class="btn btn-info" id="unit_submit_btn">
-                                <i class="fas fa-save me-1"></i>Create Unit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /Add Unit Modal -->
-  </div>
 </div>
+<!-- /Add Category Modal -->
+
+<!-- Add Brand Modal -->
+<div class="modal fade" id="add-units-brand" tabindex="-1" aria-labelledby="brandModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="brandModalLabel">
+                    <i class="fas fa-tag me-2"></i>Create New Brand
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="brand-form" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    <div class="mb-3">
+                        <label for="brand_name" class="form-label fw-bold">Brand Name <span
+                                class="text-danger">*</span></label>
+                        <input name="name" id="brand_name" type="text" class="form-control"
+                            placeholder="Enter brand name" required maxlength="255" autocomplete="off">
+                        <div class="invalid-feedback" id="brand_name_error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="brand_description" class="form-label fw-bold">Description</label>
+                        <textarea name="description" id="brand_description" class="form-control" rows="3"
+                            placeholder="Enter brand description (optional)" maxlength="500"></textarea>
+                        <div class="invalid-feedback" id="brand_description_error"></div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success" id="brand_submit_btn">
+                            <i class="fas fa-save me-1"></i>Create Brand
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Brand Modal -->
+
+<!-- Add Unit Modal -->
+<div class="modal fade" id="add-unit" tabindex="-1" aria-labelledby="unitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="unitModalLabel">
+                    <i class="fas fa-ruler me-2"></i>Create New Unit
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="unit-form" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    <div class="mb-3">
+                        <label for="unit_name" class="form-label fw-bold">Unit Name <span
+                                class="text-danger">*</span></label>
+                        <input name="name" id="unit_name" type="text" class="form-control" placeholder="Enter unit name"
+                            required maxlength="255" autocomplete="off">
+                        <div class="invalid-feedback" id="unit_name_error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit_allow_decimal" class="form-label fw-bold">Allow Decimal <span
+                                class="text-danger">*</span></label>
+                        <select name="allow_decimal" id="unit_allow_decimal" class="form-select" required>
+                            <option value="">Select option</option>
+                            <option value="1">Yes - Allow decimal values</option>
+                            <option value="0">No - Only whole numbers</option>
+                        </select>
+                        <div class="invalid-feedback" id="unit_allow_decimal_error"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="unit_description" class="form-label fw-bold">Description</label>
+                        <textarea name="description" id="unit_description" class="form-control" rows="3"
+                            placeholder="Enter unit description (optional)" maxlength="500"></textarea>
+                        <div class="invalid-feedback" id="unit_description_error"></div>
+                    </div>
+                    <div class="modal-footer border-0 px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </button>
+                        <button type="submit" class="btn btn-info" id="unit_submit_btn">
+                            <i class="fas fa-save me-1"></i>Create Unit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Add Unit Modal -->
 @endsection
 
 @section('css')

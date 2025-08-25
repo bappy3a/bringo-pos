@@ -42,7 +42,7 @@
       <div class="col-lg-4 col-sm-6 col-12">
         <div class="mb-3 add-product">
           <label class="form-label">Opening Balance</label>
-          <input type="number" step="0.01" name="opening_balance" class="form-control" value="{{ number_format($account->opening_balance,2,'.','') }}" placeholder="0.00">
+          <input readonly type="number" step="0.01" name="opening_balance" class="form-control" value="{{ number_format($account->opening_balance,2,'.','') }}" placeholder="0.00">
         </div>
       </div>
       <div class="col-lg-4 col-sm-6 col-12">

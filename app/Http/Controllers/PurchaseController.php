@@ -66,7 +66,6 @@ class PurchaseController extends Controller
                 'reference_no' => $data['reference_no'] ?? null,
                 'note' => $data['note'] ?? null,
             ]);
-
             // Create purchase details for each product
             $purchaseDetails = [];
             $totalAmount = 0;
@@ -103,7 +102,7 @@ class PurchaseController extends Controller
             // Bulk insert purchase details
             PurchaseDetails::insert($purchaseDetails);
 
-            $purchase = Purchase::find( $purchase->id)->update([
+            Purchase::find( $purchase->id)->update([
                 'amount' => $totalAmount,
                 'paid' => $totalAmount,
                 'discount' => $totalDiscount,
@@ -114,14 +113,14 @@ class PurchaseController extends Controller
             if (!empty($data['account_id'] ?? null)) {
                 $account = Account::forUserBusiness()->find($data['account_id']);
                 if ($account) {
-                    $amountToPay = (float)($purchase->total);
+                    $amountToPay = (float)($totalAmount + $totalTax - $totalDiscount);
                     $account->decrement('current_balance', $amountToPay);
                     AccountTransaction::create([
                         'business_id' => Auth::user()->business_id,
                         'account_id' => $account->id,
                         'type' => 'purchase_pay',
                         'amount' => $amountToPay,
-                        'transactionable_type' => Purchase::class,
+                        'transactionable_type' => 'debate',
                         'transactionable_id' => $purchase->id,
                         'note' => 'Purchase payment',
                         'transacted_at' => now(),
