@@ -202,7 +202,7 @@
                     <div class="product-card">
                         <div class="store-name">{{ $product['store_name'] }}</div>
                         <div class="product-name">{{ $product['name'] }}</div>
-                        <div class="price">Price: ${{ number_format($product['price'], 2) }}</div>
+                        <div class="price">Price: ${{ number_format($product['latest_selling_price'], 2) }}</div>
                         <div class="barcode">
                             <div class="barcode-lines">
                                 {!!  '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($product['barcode'], 'I25') . '" alt="barcode"   />';!!}

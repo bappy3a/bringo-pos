@@ -276,7 +276,7 @@
                             <div>
                                 <span>${product.name}</span>
                                 <br />
-                                <small>Current stock: ${product.total_unsell ?? 0}</small>
+                                <small>Current stock: ${product.total_stock ?? 0}</small>
                             </div>
                         </td>
                         <td>

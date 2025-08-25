@@ -204,17 +204,17 @@ class Product extends Model
         $businessId = $businessId ?? auth()->user()->business_id ?? 0;
 
         return $query->addSelect([
-            'total_stock' => PurchaseDetail::select(\DB::raw('COALESCE(SUM(number_of_unsell), 0)'))
+            'total_stock' => PurchaseDetails::select(\DB::raw('COALESCE(SUM(number_of_unsell), 0)'))
                 ->whereColumn('product_id', 'products.id')
                 ->where('business_id', $businessId),
                 
-            'latest_purchase_price' => PurchaseDetail::select('purchase_price')
+            'latest_purchase_price' => PurchaseDetails::select('purchase_price')
                 ->whereColumn('product_id', 'products.id')
                 ->where('business_id', $businessId)
                 ->latest()
                 ->limit(1),
                 
-            'latest_selling_price' => PurchaseDetail::select('selling_price')
+            'latest_selling_price' => PurchaseDetails::select('selling_price')
                 ->whereColumn('product_id', 'products.id')
                 ->where('business_id', $businessId)
                 ->latest()
@@ -260,5 +260,16 @@ class Product extends Model
             $q->where('business_id', $businessId)
               ->where('number_of_unsell', '>', 0);
         });
+    }
+
+    /**
+     * Get total unsold units across all purchases for current business
+     */
+    public function getTotalUnsellAttribute()
+    {
+        $businessId = auth()->user()->business_id ?? 0;
+        return (int) $this->purchaseDetails()
+            ->where('business_id', $businessId)
+            ->sum('number_of_unsell');
     }
 }

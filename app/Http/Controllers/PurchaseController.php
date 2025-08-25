@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Purchase\PurchaseStoreRequest;
 use App\Http\Requests\Purchase\PurchaseUpdateRequest;
+use App\Http\Requests\Purchase\PurchaseReturnRequest;
 use App\Models\Contact;
 use App\Models\Purchase;
 use App\Models\PurchaseDetails;
@@ -81,7 +82,7 @@ class PurchaseController extends Controller
                     'location_id' => Auth::user()->location_id,
                     'business_id' => Auth::user()->business_id,
                     'quantity' => $quantity,
-                    'number_of_unsell' => 0,
+                    'number_of_unsell' => $quantity,
                     'purchase_price' => $purchasePrice,
                     'selling_price' => $sellingPrice,
                     'discount' => $itemDiscount,
@@ -193,7 +194,7 @@ class PurchaseController extends Controller
                     'location_id' => Auth::user()->location_id,
                     'business_id' => Auth::user()->business_id,
                     'quantity' => $quantity,
-                    'number_of_unsell' => 0,
+                    'number_of_unsell' => $quantity,
                     'purchase_price' => $purchasePrice,
                     'selling_price' => $sellingPrice,
                     'discount' => $itemDiscount,
@@ -254,19 +255,96 @@ class PurchaseController extends Controller
         }
     }
 
-
     /**
-     * Show the form for editing the specified resource.
+     * Show purchase return form.
      */
-    public function return($id)
+    public function returnForm(Purchase $purchase)
     {
-        $purchase = Purchase::with(['contact','purchaseDetails'])->findOrFail($id);
-        // Check if user has permission to edit this purchase
         if ($purchase->business_id !== Auth::user()->business_id) {
-            flash()->error('You do not have permission to edit this purchase.');
+            flash()->error('You do not have permission to return this purchase.');
             return redirect()->route('purchases.index');
         }
-        
-        return view("purchase.return", compact("purchase"));
+
+        $purchase->load(['purchaseDetails.product']);
+        return view('purchase.return', compact('purchase'));
+    }
+
+    /**
+     * Store purchase return.
+     */
+    public function returnStore(PurchaseReturnRequest $request, Purchase $purchase)
+    {
+        if ($purchase->business_id !== Auth::user()->business_id) {
+            flash()->error('You do not have permission to return this purchase.');
+            return redirect()->route('purchases.index');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $totalReturnAmount = 0;
+
+            // Build a map of productId => returnQty
+            $returnQtyByProduct = [];
+            foreach ($request->product_id as $idx => $productId) {
+                $returnQtyByProduct[(int)$productId] = ($returnQtyByProduct[(int)$productId] ?? 0) + (float)$request->return_quantity[$idx];
+            }
+
+            // Iterate details and reduce quantities
+            $details = $purchase->purchaseDetails()->get();
+            foreach ($details as $detail) {
+                $productId = (int)$detail->product_id;
+                if (!isset($returnQtyByProduct[$productId])) {
+                    continue;
+                }
+                $returnQty = (float)$returnQtyByProduct[$productId];
+                if ($returnQty <= 0) {
+                    continue;
+                }
+
+                // Cap return to available quantity
+                $maxReturnable = max(0, (float)$detail->quantity - (float)$detail->number_of_unsell);
+                // If number_of_unsell represents remaining unsold, return likely should reduce quantity that is still in stock.
+                // To be safe, cap by detail->quantity
+                $cap = min($returnQty, (float)$detail->quantity);
+
+                if ($cap <= 0) {
+                    continue;
+                }
+
+                // Adjust detail quantities and totals
+                $detail->number_of_unsell = (float)$detail->quantity - $cap;
+                $lineReduction = ($cap * (float)$detail->purchase_price);
+                $detail->total = max(0, (float)$detail->total - $lineReduction);
+                $detail->total = max(0, (float)$detail->total - $lineReduction);
+                $detail->quantity_returned = $request->return_quantity[$idx];
+                $detail->save();
+
+                $totalReturnAmount += $lineReduction;
+            }
+
+            // Recalculate purchase summary
+            $newAmount = (float)$purchase->amount - $totalReturnAmount;
+            if ($newAmount < 0) { $newAmount = 0; }
+
+            // Re-sum details totals for accuracy
+            $newDetailsTotal = $purchase->purchaseDetails()->sum('total');
+            $purchase->amount = $newAmount;
+            $purchase->total = $newDetailsTotal; // assuming total excludes tax/discount already applied per detail
+            // Optionally adjust paid/due; here we keep as-is or clamp
+            $purchase->paid = min($purchase->paid, $purchase->total);
+            $purchase->due = max(0, $purchase->total - $purchase->paid);
+            $purchase->note = trim(($purchase->note ? $purchase->note."\n" : '') . 'Return processed on ' . now()->format('d-m-Y') . ($request->reason ? (': '.$request->reason) : ''));
+            $purchase->save();
+
+            DB::commit();
+
+            flash()->success('Purchase return processed successfully.');
+            return redirect()->route('purchases.show', $purchase->id);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Failed to process purchase return.');
+            return redirect()->back()->withInput();
+        }
     }
 }
