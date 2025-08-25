@@ -31,6 +31,22 @@
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="input-blocks">
+                        <label>Pay From Account</label>
+                        <select class="select" name="account_id">
+                            <option value="">Select Account (optional)</option>
+                            @foreach ($accounts as $account)
+                                <option value="{{ $account->id }}">{{ $account->name }} ({{ number_format($account->current_balance,2) }})</option>
+                            @endforeach
+                        </select>
+                        @error('account_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="input-blocks">
                         <label>Purchase Date </label>
                         <div class="input-groupicon">
                             <input name="date" type="text" placeholder="Selete Purchase Date" class="datetimepicker">

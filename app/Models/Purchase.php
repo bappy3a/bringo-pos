@@ -31,6 +31,11 @@ class Purchase extends Model
         return $this->hasMany(PurchaseDetails::class);
     }
 
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
     /**
      * Get the contact (supplier) for this purchase.
      */

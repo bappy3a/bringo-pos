@@ -8,6 +8,14 @@
                             <a href="{{ route('home') }}"><i data-feather="home"></i><span>Dashboard</span></a>
                         </li>
                         <li class="submenu">
+                            <a class="{{ areActiveRoutesRequest(['accounts*']) }}" href="javascript:void(0);"><i data-feather="credit-card"></i><span>Accounts</span><span class="menu-arrow"></span></a>
+                            <ul>
+                                <li><a class="{{ areActiveRoutesForSubMenu(['accounts.index','accounts.edit']) }}" href="{{ route('accounts.index') }}">List Accounts</a></li>
+                                <li><a class="{{ areActiveRoutesForSubMenu('accounts.create') }}" href="{{ route('accounts.create') }}">Add Account</a></li>
+                                <li><a class="{{ areActiveRoutesForSubMenu('accounts.transactions') }}" href="{{ route('accounts.transactions') }}">Transactions</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
                             <a class="{{ areActiveRoutesRequest(['contacts*']) }}" href="javascript:void(0);"><i data-feather="users"></i><span>Contact</span><span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a class="{{ isActiveUrl('contacts', ['type' => 'supplier']) }}" href="{{ route('contacts.index',['type'=>'supplier']) }}">Suppliers</a></li>
@@ -34,6 +42,7 @@
                                 <li><a class="{{ areActiveRoutesForSubMenu(['purchases.returns.index','purchase.return']) }}" href="{{ route('purchases.returns.index') }}">Purchase Returns</a></li>
                             </ul>
                         </li>
+
 
                     </ul>
                 </li>

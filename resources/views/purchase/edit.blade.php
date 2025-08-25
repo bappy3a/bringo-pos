@@ -29,6 +29,19 @@
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12">
                     <div class="input-blocks">
+                        <label>Pay From Account</label>
+                        <select class="select" name="account_id">
+                            <option value="">Select Account (optional)</option>
+                            @foreach (\App\Models\Account::forUserBusiness()->where('is_active', true)->orderByDesc('is_default')->orderBy('name')->get() as $account)
+                                <option value="{{ $account->id }}" {{ $purchase->account_id == $account->id ? 'selected' : '' }}>
+                                    {{ $account->name }} ({{ number_format($account->current_balance,2) }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="input-blocks">
                         <label>Purchase Date </label>
                         <div class="input-groupicon">
                             <input name="date" type="text" placeholder="Select Purchase Date" class="datetimepicker" 

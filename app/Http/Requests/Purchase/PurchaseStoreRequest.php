@@ -23,6 +23,7 @@ class PurchaseStoreRequest extends FormRequest
     {
         return [
             "contact_id"=> "required|exists:contacts,id",
+            "account_id"=> "nullable|exists:accounts,id",
             "product_id"=> "required|array",
             "product_id.*"=> "required|exists:products,id",
             "quantity"=> "required|array",

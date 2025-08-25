@@ -3,6 +3,8 @@
 @section('title','Create Product')
 
 @section('content')
+<div class="page-wrapper">
+  <div class="content">
 <div class="page-header">
     <div class="add-item d-flex">
         <div class="page-title">
@@ -18,7 +20,7 @@
         </li>
     </ul>
     
-</div>
+    </div>
 <!-- /add -->
 <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
     @csrf
@@ -314,7 +316,7 @@
             <button type="submit" class="btn btn-submit">Save Product</button>
         </div>
     </div>
-</form>
+  </form>
 
 
 	<!-- Add Category Modal -->
@@ -468,6 +470,8 @@
         </div>
 	</div>
 	<!-- /Add Unit Modal -->
+  </div>
+</div>
 @endsection
 
 @section('css')

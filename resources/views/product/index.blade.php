@@ -3,6 +3,8 @@
 @section('title', 'Products')
 
 @section('content')
+<div class="page-wrapper">
+<div class="content">
 <div class="page-header">
     <div class="add-item d-flex">
         <div class="page-title">
@@ -13,7 +15,7 @@
     <div class="page-btn">
         <a href="{{ route('products.create') }}" class="btn btn-added"><i data-feather="plus-circle" class="me-2"></i>Add New Product</a>
     </div>	
-</div>
+ </div>
 
 <!-- /product list -->
 <div class="card table-list-card">
@@ -74,7 +76,7 @@
                             <td>
                                 <div class="productimgname">
                                     <a href="javascript:void(0);" class="product-img stock-img">
-                                        <img src="{{ asset($product->images) ?? asset('asset/images/image-not-found.avif') }} " alt="{{ $product->name }}">
+                                        <img src="{{ $product->images ? asset($product->images) : asset('assets/images/image-not-found.avif') }}" alt="{{ $product->name }}">
                                     </a>
                                     <a href="javascript:void(0);">{{ $product->name }} </a>
                                 </div>												
@@ -133,6 +135,9 @@
             </table>
         </div>
     </div>
+
+</div>
+</div>
 </div>
 
 @endsection

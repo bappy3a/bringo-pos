@@ -8,10 +8,10 @@ use App\Http\Requests\Purchase\PurchaseReturnRequest;
 use App\Models\Contact;
 use App\Models\Purchase;
 use App\Models\PurchaseDetails;
-use Illuminate\Http\Request;
+use App\Models\Account;
+use App\Models\AccountTransaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Expr\New_;
 
 class PurchaseController extends Controller
 {
@@ -33,7 +33,8 @@ class PurchaseController extends Controller
     public function create()
     {
         $suppliers = Contact::forUserBusiness()->whereType('supplier')->orderBy('name')->get();
-        return view("purchase.create",compact("suppliers"));
+        $accounts = Account::forUserBusiness()->where('is_active', true)->orderByDesc('is_default')->orderBy('name')->get();
+        return view("purchase.create",compact("suppliers","accounts"));
     }
 
     /**
@@ -44,37 +45,40 @@ class PurchaseController extends Controller
         try {
             DB::beginTransaction();
             
-            // Calculate totals
-            $total = collect($request->purchase_price)->sum();
-            $discount = collect($request->discount ?? [])->sum();
-            $tax = collect($request->tax ?? [])->sum();
+            // Use validated payload
+            $data = $request->validated();
             // Create purchase record
             $purchase = Purchase::create([
                 'user_id' => Auth::id(),
                 'location_id' => Auth::user()->location_id,
                 'business_id' => Auth::user()->business_id,
-                'transaction_id' => $request->transaction_id,
-                'contact_id' => $request->contact_id,
-                'date' => \Carbon\Carbon::createFromFormat('d-m-Y', $request->date),
-                'amount' => $total,
-                'paid' => $total,
+                'transaction_id' => $data['transaction_id'] ?? null,
+                'contact_id' => $data['contact_id'],
+                'account_id' => $data['account_id'] ?? null,
+                'date' => \Carbon\Carbon::createFromFormat('d-m-Y', $data['date']),
+                'amount' => 0,
+                'paid' => 0,
                 'due' => 0,
-                'discount' => $discount,
-                'tax' => $tax,
-                'total' => $total + $tax - $discount,
+                'discount' => 0,
+                'tax' => 0,
+                'total' => 0,
                 'payment_status' => 'paid',
-                'reference_no' => $request->reference_no,
-                'note' => $request->note,
+                'reference_no' => $data['reference_no'] ?? null,
+                'note' => $data['note'] ?? null,
             ]);
 
             // Create purchase details for each product
             $purchaseDetails = [];
-            foreach ($request->product_id as $key => $productId) {
-                $quantity = $request->quantity[$key];
-                $purchasePrice = $request->purchase_price[$key];
-                $sellingPrice = $request->selling_price[$key];
-                $itemDiscount = $request->discount[$key] ?? 0;
-                $itemTax = $request->tax[$key] ?? 0;
+            $totalAmount = 0;
+            $totalDue = 0;
+            $totalDiscount = 0;
+            $totalTax = 0;
+            foreach (($data['product_id'] ?? []) as $key => $productId) {
+                $quantity = $data['quantity'][$key] ?? 0;
+                $purchasePrice = $data['purchase_price'][$key] ?? 0;
+                $sellingPrice = $data['selling_price'][$key] ?? 0;
+                $itemDiscount = $data['discount'][$key] ?? 0;
+                $itemTax = $data['tax'][$key] ?? 0;
                 
                 $purchaseDetails[] = [
                     'purchase_id' => $purchase->id,
@@ -91,21 +95,49 @@ class PurchaseController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
+                $totalAmount += ($quantity * $purchasePrice) + $itemTax - $itemDiscount;
+                $totalDue += ($quantity * $purchasePrice) + $itemDiscount;
+                $totalDiscount +=  $itemDiscount;
+                $totalTax += $itemTax;
             }
-            
             // Bulk insert purchase details
             PurchaseDetails::insert($purchaseDetails);
-            
+
+            $purchase = Purchase::find( $purchase->id)->update([
+                'amount' => $totalAmount,
+                'paid' => $totalAmount,
+                'discount' => $totalDiscount,
+                'tax' => $totalTax,
+                'total' => $totalAmount + $totalTax - $totalDiscount,
+            ]);
+            // If account selected, create account transaction and update balance
+            if (!empty($data['account_id'] ?? null)) {
+                $account = Account::forUserBusiness()->find($data['account_id']);
+                if ($account) {
+                    $amountToPay = (float)($purchase->total);
+                    $account->decrement('current_balance', $amountToPay);
+                    AccountTransaction::create([
+                        'business_id' => Auth::user()->business_id,
+                        'account_id' => $account->id,
+                        'type' => 'purchase_pay',
+                        'amount' => $amountToPay,
+                        'transactionable_type' => Purchase::class,
+                        'transactionable_id' => $purchase->id,
+                        'note' => 'Purchase payment',
+                        'transacted_at' => now(),
+                    ]);
+                }
+            }
+
             DB::commit();
             
             flash()->success('Purchase successfully created!');
             return redirect()->route('purchases.index');
             
         } catch (\Exception $e) {
-            dd($e->getMessage());
             DB::rollback();
             
-            flash()->error('Failed to create purchase. Please try again.');
+            flash()->error($e->getMessage());
             return redirect()->back()->withInput();
         }
     }
@@ -158,22 +190,24 @@ class PurchaseController extends Controller
         try {
             DB::beginTransaction();
             
+            // Use validated payload
+            $data = $request->validated();
             // Calculate totals
-            $total = collect($request->purchase_price)->sum();
-            $discount = collect($request->discount ?? [])->sum();
-            $tax = collect($request->tax ?? [])->sum();
+            $total = collect($data['purchase_price'] ?? [])->sum();
+            $discount = collect($data['discount'] ?? [])->sum();
+            $tax = collect($data['tax'] ?? [])->sum();
             
             // Update purchase record
             $purchase->update([
-                'contact_id' => $request->contact_id,
-                'date' => \Carbon\Carbon::createFromFormat('d-m-Y', $request->date),
+                'contact_id' => $data['contact_id'],
+                'date' => \Carbon\Carbon::createFromFormat('d-m-Y', $data['date']),
                 'amount' => $total,
                 'discount' => $discount,
                 'tax' => $tax,
                 'total' => $total + $tax - $discount,
-                'reference_no' => $request->reference_no,
-                'note' => $request->note,
-                'transaction_id' => $request->transaction_id,
+                'reference_no' => $data['reference_no'] ?? null,
+                'note' => $data['note'] ?? null,
+                'transaction_id' => $data['transaction_id'] ?? null,
             ]);
 
             // Delete existing purchase details
@@ -181,12 +215,12 @@ class PurchaseController extends Controller
 
             // Create new purchase details for each product
             $purchaseDetails = [];
-            foreach ($request->product_id as $key => $productId) {
-                $quantity = $request->quantity[$key];
-                $purchasePrice = $request->purchase_price[$key];
-                $sellingPrice = $request->selling_price[$key];
-                $itemDiscount = $request->discount[$key] ?? 0;
-                $itemTax = $request->tax[$key] ?? 0;
+            foreach (($data['product_id'] ?? []) as $key => $productId) {
+                $quantity = $data['quantity'][$key] ?? 0;
+                $purchasePrice = $data['purchase_price'][$key] ?? 0;
+                $sellingPrice = $data['selling_price'][$key] ?? 0;
+                $itemDiscount = $data['discount'][$key] ?? 0;
+                $itemTax = $data['tax'][$key] ?? 0;
                 
                 $purchaseDetails[] = [
                     'purchase_id' => $purchase->id,
@@ -286,8 +320,9 @@ class PurchaseController extends Controller
 
             // Map desired total returned per product
             $desiredReturnedByProduct = [];
-            foreach ($request->product_id as $idx => $productId) {
-                $desiredReturnedByProduct[(int)$productId] = (float)($request->return_quantity[$idx] ?? 0);
+            $retData = $request->validated();
+            foreach (($retData['product_id'] ?? []) as $idx => $productId) {
+                $desiredReturnedByProduct[(int)$productId] = (float)($retData['return_quantity'][$idx] ?? 0);
             }
 
             // Iterate details and adjust based on delta between desired and current returned
@@ -330,7 +365,8 @@ class PurchaseController extends Controller
             $purchase->total = $purchase->purchaseDetails()->sum('total');
             $purchase->paid = min($purchase->paid, $purchase->total);
             $purchase->due = max(0, $purchase->total - $purchase->paid);
-            $purchase->note = trim(($purchase->note ? $purchase->note."\n" : '') . 'Returns updated on ' . now()->format('d-m-Y') . ($request->reason ? (': '.$request->reason) : ''));
+            $reason = $retData['reason'] ?? null;
+            $purchase->note = trim(($purchase->note ? $purchase->note."\n" : '') . 'Returns updated on ' . now()->format('d-m-Y') . ($reason ? (': '.$reason) : ''));
             $purchase->save();
 
             DB::commit();
