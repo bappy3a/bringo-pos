@@ -20,6 +20,7 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases = Purchase::forUserBusiness()
+        ->with(["user:id,first_name,last_name"])
         ->orderBy("created_at","desc")
         ->paginate(10);
         return view("purchase.index", compact("purchases"));

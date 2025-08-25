@@ -1,24 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="page-header">
-        <div class="add-item d-flex">
-            <div class="page-title">
-                <h4>Purchases</h4>
-                <h6>Manage your purchases</h6>
-            </div>
-            <div class="add-item-btn">
-                <a href="{{ route('purchases.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>Add Purchase
-                </a>
-            </div>
+
+<div class="page-header">
+    <div class="add-item d-flex">
+        <div class="page-title">
+            <h4>Purchases List</h4>
+            <h6>Manage your purchases</h6>
         </div>
     </div>
+    <div class="page-btn">
+        <a href="{{ route('purchases.create') }}" class="btn btn-added"><i data-feather="plus-circle" class="me-2"></i>Add New Purchase</a>
+    </div>	
+</div>
+
+
 
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
+            <div class="table-responsive product-list">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Reference No</th>
@@ -48,7 +49,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    @if($purchase->payment_status == 'paid')
+                                    @if($purchase->payment_status == 'pay')
                                         <span class="badge bg-success">Paid</span>
                                     @elseif($purchase->payment_status == 'partial')
                                         <span class="badge bg-warning">Partial</span>
@@ -57,24 +58,24 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $purchase->user->name ?? 'N/A' }}
+                                    @if ($purchase->user)
+                                        {{ $purchase->user->first_name.' '.$purchase->user->last_name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                    
                                 </td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="{{ route('purchases.show', $purchase->id) }}" 
-                                           class="btn btn-sm btn-info" title="View">
-                                            <i class="fas fa-eye"></i>
+                                <td class="action-table-data">
+                                    <div class="edit-delete-action">
+                                        <a class="me-2 p-2" href="{{ route('purchases.show', $purchase->id) }}">
+                                            <i data-feather="eye" class="action-eye"></i>
                                         </a>
-                                        <a href="{{ route('purchases.edit', $purchase->id) }}" 
-                                           class="btn btn-sm btn-warning" title="Edit">
-                                            <i class="fas fa-edit"></i>
+                                        <a class="me-2 p-2" href="{{ route('purchases.edit', $purchase->id) }}">
+                                            <i data-feather="edit" class="feather-edit"></i>
                                         </a>
-                                        <button type="button" 
-                                                class="btn btn-sm btn-danger" 
-                                                title="Delete"
-                                                onclick="deletePurchase({{ $purchase->id }})">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                        <a onclick="confirm_modal('{{route('purchases.destroy', $purchase->id)}}');" class="confirm-text p-2" href="javascript:void(0);">
+                                            <i data-feather="trash-2" class="feather-trash-2"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -93,14 +94,24 @@
                             </tr>
                         @endforelse
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="align-middle">
+                                <div class="text-muted small mb-0">
+                                    @if ($purchases->total() > 0)
+                                        Showing {{ $purchases->firstItem() }} to {{ $purchases->lastItem() }} of {{ $purchases->total() }} entries
+                                    @else
+                                        No entries to show
+                                    @endif
+                                </div>
+                            </td>
+                            <td colspan="4" class="text-end">
+                                {{ $purchases->onEachSide(1)->links('pagination::bootstrap-5') }}
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
-
-            @if($purchases->hasPages())
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $purchases->links() }}
-                </div>
-            @endif
         </div>
     </div>
 @endsection
