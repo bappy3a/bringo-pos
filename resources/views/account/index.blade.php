@@ -34,10 +34,7 @@
       <tr>
       <td>
         <div class="productimgname">
-        <a href="javascript:void(0);" class="product-img stock-img">
-        <img src="{{ asset('assets/images/wallet.svg') }}" alt="{{ $account->name }}">
-        </a>
-        <a href="javascript:void(0);">{{ $account->name }}</a>
+          <a href="javascript:void(0);">{{ $account->name }}</a>
         </div>
       </td>
       <td class="text-capitalize">{{ $account->type }}</td>
