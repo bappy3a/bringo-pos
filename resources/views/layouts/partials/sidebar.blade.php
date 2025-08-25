@@ -27,10 +27,11 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a class="{{ areActiveRoutesRequest(['purchases*']) }}" href="javascript:void(0);"><i data-feather="download"></i><span>Purchases</span><span class="menu-arrow"></span></a>
+                            <a class="{{ areActiveRoutesRequest(['purchases*','purchases-returns']) }}" href="javascript:void(0);"><i data-feather="download"></i><span>Purchases</span><span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a class="{{ areActiveRoutesForSubMenu(['purchases.index','purchases.show','purchases.edit','purchases.delete']) }}" href="{{ route('purchases.index') }}">List Purchases</a></li>
                                 <li><a class="{{ areActiveRoutesForSubMenu('purchases.create') }}" href="{{ route('purchases.create') }}">Add Purchase</a></li>
+                                <li><a class="{{ areActiveRoutesForSubMenu(['purchases.returns.index','purchase.return']) }}" href="{{ route('purchases.returns.index') }}">Purchase Returns</a></li>
                             </ul>
                         </li>
 

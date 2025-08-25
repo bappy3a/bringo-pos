@@ -65,7 +65,7 @@
                         <th>SKU</th>
                         <th>Category</th>
                         <th>Brand</th>
-                        <th class="no-sort">Action</th>
+                        <th width="10%" class="no-sort text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>

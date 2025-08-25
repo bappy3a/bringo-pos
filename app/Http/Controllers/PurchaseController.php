@@ -282,69 +282,128 @@ class PurchaseController extends Controller
         try {
             DB::beginTransaction();
 
-            $totalReturnAmount = 0;
+            $totalDeltaAmount = 0;
 
-            // Build a map of productId => returnQty
-            $returnQtyByProduct = [];
+            // Map desired total returned per product
+            $desiredReturnedByProduct = [];
             foreach ($request->product_id as $idx => $productId) {
-                $returnQtyByProduct[(int)$productId] = ($returnQtyByProduct[(int)$productId] ?? 0) + (float)$request->return_quantity[$idx];
+                $desiredReturnedByProduct[(int)$productId] = (float)($request->return_quantity[$idx] ?? 0);
             }
 
-            // Iterate details and reduce quantities
+            // Iterate details and adjust based on delta between desired and current returned
             $details = $purchase->purchaseDetails()->get();
             foreach ($details as $detail) {
                 $productId = (int)$detail->product_id;
-                if (!isset($returnQtyByProduct[$productId])) {
-                    continue;
-                }
-                $returnQty = (float)$returnQtyByProduct[$productId];
-                if ($returnQty <= 0) {
-                    continue;
+                $currentReturned = (float)($detail->quantity_returned ?? 0);
+                $desiredReturned = (float)($desiredReturnedByProduct[$productId] ?? 0);
+
+                // Clamp desired to purchased qty
+                $desiredReturned = max(0, min($desiredReturned, (float)$detail->quantity + $currentReturned));
+                $delta = $desiredReturned - $currentReturned; // positive = more return, negative = reduce return
+                if ($delta == 0) { continue; }
+
+                // Available unsold units that can be returned additionally
+                if ($delta > 0) {
+                    $additionalReturn = min($delta, (float)$detail->number_of_unsell);
+                    if ($additionalReturn <= 0) { continue; }
+                    $detail->number_of_unsell = max(0, (float)$detail->number_of_unsell - $additionalReturn);
+                    $detail->quantity_returned = $currentReturned + $additionalReturn;
+                    $lineReduction = $additionalReturn * (float)$detail->purchase_price;
+                    $detail->total = max(0, (float)$detail->total - $lineReduction);
+                    $totalDeltaAmount += $lineReduction;
+                } else {
+                    // Reducing previously returned quantity (restock)
+                    $restock = min(abs($delta), $currentReturned);
+                    if ($restock <= 0) { continue; }
+                    $detail->number_of_unsell = (float)$detail->number_of_unsell + $restock;
+                    $detail->quantity_returned = max(0, $currentReturned - $restock);
+                    $lineIncrease = $restock * (float)$detail->purchase_price;
+                    $detail->total = (float)$detail->total + $lineIncrease;
+                    $totalDeltaAmount -= $lineIncrease;
                 }
 
-                // Cap return to available quantity
-                $maxReturnable = max(0, (float)$detail->quantity - (float)$detail->number_of_unsell);
-                // If number_of_unsell represents remaining unsold, return likely should reduce quantity that is still in stock.
-                // To be safe, cap by detail->quantity
-                $cap = min($returnQty, (float)$detail->quantity);
-
-                if ($cap <= 0) {
-                    continue;
-                }
-
-                // Adjust detail quantities and totals
-                $detail->number_of_unsell = (float)$detail->quantity - $cap;
-                $lineReduction = ($cap * (float)$detail->purchase_price);
-                $detail->total = max(0, (float)$detail->total - $lineReduction);
-                $detail->total = max(0, (float)$detail->total - $lineReduction);
-                $detail->quantity_returned = $request->return_quantity[$idx];
                 $detail->save();
-
-                $totalReturnAmount += $lineReduction;
             }
 
-            // Recalculate purchase summary
-            $newAmount = (float)$purchase->amount - $totalReturnAmount;
-            if ($newAmount < 0) { $newAmount = 0; }
-
-            // Re-sum details totals for accuracy
-            $newDetailsTotal = $purchase->purchaseDetails()->sum('total');
-            $purchase->amount = $newAmount;
-            $purchase->total = $newDetailsTotal; // assuming total excludes tax/discount already applied per detail
-            // Optionally adjust paid/due; here we keep as-is or clamp
+            // Update purchase summary based on delta
+            $purchase->amount = max(0, (float)$purchase->amount - $totalDeltaAmount);
+            $purchase->total = $purchase->purchaseDetails()->sum('total');
             $purchase->paid = min($purchase->paid, $purchase->total);
             $purchase->due = max(0, $purchase->total - $purchase->paid);
-            $purchase->note = trim(($purchase->note ? $purchase->note."\n" : '') . 'Return processed on ' . now()->format('d-m-Y') . ($request->reason ? (': '.$request->reason) : ''));
+            $purchase->note = trim(($purchase->note ? $purchase->note."\n" : '') . 'Returns updated on ' . now()->format('d-m-Y') . ($request->reason ? (': '.$request->reason) : ''));
             $purchase->save();
 
             DB::commit();
 
-            flash()->success('Purchase return processed successfully.');
+            flash()->success('Purchase returns saved.');
             return redirect()->route('purchases.show', $purchase->id);
         } catch (\Exception $e) {
             DB::rollBack();
-            flash()->error('Failed to process purchase return.');
+            flash()->error('Failed to save purchase returns.');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function returnClear(Purchase $purchase)
+    {
+        if ($purchase->business_id !== Auth::user()->business_id) {
+            flash()->error('You do not have permission to clear returns.');
+            return redirect()->route('purchases.index');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $details = $purchase->purchaseDetails()->get();
+            $totalIncrease = 0;
+            foreach ($details as $detail) {
+                $returned = (float)($detail->quantity_returned ?? 0);
+                if ($returned > 0) {
+                    // Restock all returned units
+                    $detail->number_of_unsell = (float)$detail->number_of_unsell + $returned;
+                    $detail->quantity_returned = 0;
+                    $lineIncrease = $returned * (float)$detail->purchase_price;
+                    $detail->total = (float)$detail->total + $lineIncrease;
+                    $totalIncrease += $lineIncrease;
+                    $detail->save();
+                }
+            }
+
+            // Update purchase summary back up
+            $purchase->amount = (float)$purchase->amount + $totalIncrease;
+            $purchase->total = $purchase->purchaseDetails()->sum('total');
+            $purchase->paid = min($purchase->paid, $purchase->total);
+            $purchase->due = max(0, $purchase->total - $purchase->paid);
+            $purchase->note = trim(($purchase->note ? $purchase->note."\n" : '') . 'Returns cleared on ' . now()->format('d-m-Y'));
+            $purchase->save();
+
+            DB::commit();
+
+            flash()->success('All returns cleared.');
+            return redirect()->route('purchases.show', $purchase->id);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Failed to clear returns.');
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Display a listing of purchase returns.
+     */
+    public function returnsIndex()
+    {
+        $purchases = Purchase::forUserBusiness()
+            ->whereHas('purchaseDetails', function($q){
+                $q->where(function($qq){
+                    $qq->whereNotNull('quantity_returned')
+                       ->where('quantity_returned', '>', 0);
+                });
+            })
+            ->with(['user:id,first_name,last_name','contact:id,name'])
+            ->orderBy('created_at','desc')
+            ->paginate(10);
+
+        return view('purchase.returns', compact('purchases'));
     }
 }

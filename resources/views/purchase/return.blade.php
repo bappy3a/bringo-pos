@@ -8,9 +8,14 @@
                 <h6>Return items from purchase #{{ $purchase->id }}</h6>
             </div>
         </div>
-        <div class="page-btn">
-            <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-secondary"><i data-feather="arrow-left" class="me-2"></i>Back</a>
-        </div>
+        <ul class="table-top-head">
+            <li>
+                <div class="page-btn">
+                    <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-secondary"><i data-feather="arrow-left" class="me-2 fz-2"></i>Back</a>
+                </div>
+            </li>
+        </ul>
+        
     </div>
 
     <form action="{{ route('purchase.return.store', $purchase->id) }}" method="POST">
@@ -23,6 +28,7 @@
                             <tr>
                                 <th>Product</th>
                                 <th class="text-center">Purchased Qty</th>
+                                <th class="text-center">Already Returned</th>
                                 <th class="text-center">Return Qty</th>
                                 <th class="text-end">Unit Cost</th>
                                 <th class="text-end">Line Total</th>
@@ -39,7 +45,8 @@
                                         @endif
                                     </td>
                                     <td class="text-center">{{ (float)$detail->quantity }}</td>
-                                    <td class="text-center" style="max-width:140px;">
+                                    <td class="text-center">{{ (float)($detail->quantity_returned ?? 0) }}</td>
+                                    <td class="text-center" style="max-width:160px;">
                                         <input type="number" name="return_quantity[]" class="form-control text-center" min="0" step="1" value="0" data-unit="{{ (float)$detail->purchase_price }}">
                                         <div class="form-text">Max: {{ (float)$detail->quantity }}</div>
                                     </td>
@@ -50,7 +57,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="4" class="text-end"><strong>Total Return Amount:</strong></td>
+                                <td colspan="5" class="text-end"><strong>Total Return Amount:</strong></td>
                                 <td class="text-end"><strong id="return-total">0.00</strong></td>
                             </tr>
                         </tfoot>
@@ -65,7 +72,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 d-flex align-items-end justify-content-end">
-                        <button type="submit" class="btn btn-primary"><i data-feather="rotate-ccw" class="me-2"></i>Process Return</button>
+                        <button type="submit" class="btn btn-primary"><i data-feather="rotate-ccw" class="me-2"></i>Save Returns</button>
                     </div>
                 </div>
 
@@ -81,19 +88,14 @@
             const row = $(this).closest('tr');
             const qty = parseFloat($(this).val() || 0);
             const unit = parseFloat($(this).data('unit') || 0);
-            const purchased = parseFloat(row.find('td.text-center:first').text() || 0);
+            const purchased = parseFloat(row.find('td.text-center').eq(0).text() || 0);
 
-            // Cap to purchased quantity
-            if (qty > purchased) {
-                $(this).val(purchased);
-            }
+            if (qty > purchased) { $(this).val(purchased); }
 
             const line = (parseFloat($(this).val() || 0) * unit).toFixed(2);
             row.find('.line-total').text(line);
 
-            // Recalc total
-            let total = 0;
-            $('.line-total').each(function(){ total += parseFloat($(this).text() || 0); });
+            let total = 0; $('.line-total').each(function(){ total += parseFloat($(this).text() || 0); });
             $('#return-total').text(total.toFixed(2));
         });
     })(jQuery);

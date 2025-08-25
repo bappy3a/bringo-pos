@@ -9,12 +9,18 @@
             <h6>View purchase information</h6>
         </div>
     </div>
-    <div class="page-btn">
-        <div class="add-item-btn">
-            <a href="{{ route('purchases.edit', $purchase->id) }}" class="btn btn-warning"> <i class="fas fa-edit me-2"></i>Edit Purchase </a>
-            <a href="{{ route('purchases.index') }}" class="btn btn-secondary ms-2"> <i class="fas fa-arrow-left me-2"></i>Back to List </a>
-        </div>
-    </div>
+    <ul class="table-top-head">
+        <li>
+            <div class="page-btn">
+                <a href="{{ route('purchases.edit', $purchase->id) }}" class="btn btn-primary ps-2"> <i class="fas fa-edit me-2"></i>Edit Purchase </a>
+            </div>
+        </li>
+        <li>
+            <div class="page-btn">
+                <a href="{{ route('purchases.index') }}" class="btn btn-secondary ms-2"> <i class="fas fa-arrow-left me-2"></i>Back to List </a>
+            </div>
+        </li>
+    </ul>
 </div>
 
 <div class="row">
@@ -127,6 +133,7 @@
                         <th>Product</th>
                         <th>SKU</th>
                         <th class="text-center">Quantity</th>
+                        <th class="text-center">Returned</th>
                         <th class="text-end">Purchase Price</th>
                         <th class="text-end">Selling Price</th>
                         <th class="text-end">Discount</th>
@@ -151,6 +158,7 @@
                         </td>
                         <td>{{ $detail->product->sku ?? 'N/A' }}</td>
                         <td class="text-center">{{ $detail->quantity }}</td>
+                        <td class="text-center">{{ (float)($detail->quantity_returned ?? 0) }}</td>
                         <td class="text-end">{{ number_format($detail->purchase_price, 2) }}</td>
                         <td class="text-end">{{ number_format($detail->selling_price, 2) }}</td>
                         <td class="text-end">{{ number_format($detail->discount ?? 0, 2) }}</td>
@@ -159,7 +167,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="text-center">
+                        <td colspan="9" class="text-center">
                             <div class="empty-state">
                                 <i class="fas fa-box fa-2x text-muted mb-2"></i>
                                 <p class="text-muted">No items found in this purchase.</p>
