@@ -37,9 +37,6 @@
                     <img src="{{ asset('assets/img/icons/expense.svg') }}" alt="{{ $expense->title }}">
                   </a>
                   <a href="javascript:void(0);">{{ $expense->title }}</a>
-                  @if($expense->reference_no)
-                    <br><small class="text-muted">Ref: {{ $expense->reference_no }}</small>
-                  @endif
                 </div>
               </td>
               <td>{{ $expense->category->name }}</td>
@@ -49,9 +46,6 @@
               <td>{{ $expense->user->first_name }} {{ $expense->user->last_name }}</td>
               <td class="action-table-data">
                 <div class="edit-delete-action">
-                  <a class="me-2 edit-icon p-2" href="{{ route('expenses.show', $expense->id) }}">
-                    <i data-feather="eye" class="feather-eye"></i>
-                  </a>
                   <a class="me-2 p-2" href="{{ route('expenses.edit', $expense->id) }}">
                     <i data-feather="edit" class="feather-edit"></i>
                   </a>

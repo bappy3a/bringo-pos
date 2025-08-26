@@ -16,7 +16,7 @@ class ExpenseController extends Controller
     {
         $expenses = Expense::forUserBusiness()
             ->with(['category', 'account', 'user:id,first_name,last_name'])
-            ->orderBy('expense_date', 'desc')
+            ->orderBy('expense_date', 'asc')
             ->paginate(10);
         return view('expense.index', compact('expenses'));
     }

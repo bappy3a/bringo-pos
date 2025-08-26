@@ -32581,3 +32581,6 @@ select:hover option {
 a.dropdown-item:hover {
   background-color: #fff !important;
 }
+.expense-edit-image{
+  max-width: 60px !important; 
+}
