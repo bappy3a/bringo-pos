@@ -35,6 +35,12 @@
         <li class="nav-item nav-searchinputs"></li>
         <!-- /Search -->
 
+        
+        <li class="nav-item nav-item-box">
+            <a href="{{ route('pos') }}" class="custom-header-pos gap-1 btn btn-primary">
+                <i class="fa-solid fa-cart-shopping"></i> POS
+            </a>
+        </li>
 
         <li class="nav-item nav-item-box">
             <a href="javascript:void(0);" id="btnFullscreen">

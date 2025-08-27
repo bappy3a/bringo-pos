@@ -1671,7 +1671,7 @@ button:focus {
 .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary.focus, .btn-outline-primary:active, .btn-outline-primary.active {
   background-color: #9769ff !important;
   border: 1px solid #9769ff !important;
-  box-shadow: 0 3px 10px rgba(255, 159, 67, 0.5);
+  box-shadow: 0 3px 10px rgba(97, 69, 255, 0.5);
   color: #ffffff !important;
 }
 
@@ -32583,4 +32583,12 @@ a.dropdown-item:hover {
 }
 .expense-edit-image{
   max-width: 60px !important; 
+}
+.custom-header-pos{
+  width: 70px !important;
+  color: #fff !important;
+}
+.custom-header-pos i{
+  font-size: 15px !important;
+  margin-right: 3px;
 }

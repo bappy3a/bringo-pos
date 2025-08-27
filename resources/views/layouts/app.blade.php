@@ -16,22 +16,27 @@
         @yield('css')
     </head>
     <body>
-        <!-- Main Wrapper -->
-        <div class="main-wrapper">
-            <!-- Header -->
-            @include('layouts.partials.header')
-			
-			<!-- Sidebar -->
-			@include('layouts.partials.sidebar')
-
-            <div class="page-wrapper">
-                <div class="content">
-                    @yield('content')
-				</div>
+        @if (Request::is('pos'))
+            <div class="main-wrapper">
+                @yield('content')
             </div>
-        </div>
+        @else
+            <div class="main-wrapper">
+                <!-- Header -->
+                @include('layouts.partials.header')
+                
+                <!-- Sidebar -->
+                @include('layouts.partials.sidebar')
 
-        @include('layouts.partials.delete_model')
+                <div class="page-wrapper">
+                    <div class="content">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+
+            @include('layouts.partials.delete_model')            
+        @endif
 
         <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
         <script src="{{ asset('assets/js/feather.min.js') }}"></script>
