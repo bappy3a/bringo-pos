@@ -28971,7 +28971,7 @@ th.fixed-width {
 }
 
 .pos-category {
-  margin-bottom: 24px;
+  margin-bottom: 15px;
 }
 .pos-category .owl-item {
   background-color: #ffffff;
@@ -28997,7 +28997,7 @@ th.fixed-width {
   margin-left: -0.1px !important;
 }
 .pos-category .owl-item li {
-  padding: 15px 0;
+  padding: 10px 0;
 }
 .pos-category .owl-item a img {
   -webkit-transition: all 0.5s ease;
@@ -29014,9 +29014,9 @@ th.fixed-width {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: 5px;
   width: 100%;
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 .pos-category .owl-item h6 a {
   color: #092C4C;
