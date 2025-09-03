@@ -275,20 +275,23 @@
                 </div>
                 <div class="col-md-12 col-lg-7">
                     <div class="pos-categories tabs_wrapper">
-                        <button class="btn btn-primary mt-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
-                        {{-- @include('pos.inc.categorys') --}}
-
-                        <div class="pos-products">
-                            <div class="align-items-center justify-content-between">
-                                <div class="row justify-items-center">
-                                    <div class="col-4">
-                                        <h5 class="mb-3">Products</h5>
-                                    </div>
-                                    <div class="col-8 text-end">
-                                        <input type="email" class="form-control form-control-sm" id="colFormLabelSm" placeholder="col-form-label-sm">
-                                    </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 col-lg-2">
+                                <h5 class="mt-2">Products</h5>
+                            </div>
+                            <div class="col-md-12 col-lg-8">
+                                <input type="text" class="form-control" placeholder="Enter Product name / SKU / Scan bar code">
+                            </div>
+                            <div class="col-md-12 col-lg-2">
+                                <div class="btn-list d-flex flex-wrap">
+                                    {{-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filter <i class="fa-solid fa-barcode"></i></button> --}}
+                                    <button class="btn btn-primary btn-w-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filter <i class="fa-solid fa-arrow-down-short-wide"></i> </button>
                                 </div>
                             </div>
+                        </div>
+                        
+
+                        <div class="pos-products">
                             <div class="tabs_container">
                                 <div class="tab_content active" data-tab="all">
                                     <div class="row">
@@ -1126,6 +1129,40 @@
                 <li class="">Nemo enim ipsam voluptatem quia aspernatur</li>
                 <li class="">Neque porro quisquam est, qui dolorem</li>
                 <li class="">Quis autem vel eum iure qui in ea</li>
+            </ul>
+            <ul class="custom-control-group custom-control-vertical w-100">
+                <li>
+                    <div class="custom-control custom-control-sm custom-checkbox custom-control-pro">
+                        <input type="checkbox" class="custom-control-input" id="user-selection-s1" name="user-selection">
+                        <label class="custom-control-label" for="user-selection-s1">
+                            <span class="user-card">
+                                <span class="user-avatar sq">
+                                    <img src="./images/avatar/c-sm.jpg" alt="">
+                                </span>
+                                <span class="user-info">
+                                    <span class="lead-text">Keith Jensen</span>
+                                    <span class="sub-text">Senior Developer</span>
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="custom-control custom-control-sm custom-checkbox custom-control-pro">
+                        <input type="checkbox" class="custom-control-input" id="user-selection-s2" name="user-selection">
+                        <label class="custom-control-label" for="user-selection-s2">
+                            <span class="user-card">
+                                <span class="user-avatar sm bg-pink">
+                                    <span>AB</span>
+                                </span>
+                                <span class="user-info">
+                                    <span class="lead-text">Abu Bin Ishtiyak</span>
+                                    <span class="sub-text">Senior Developer</span>
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
