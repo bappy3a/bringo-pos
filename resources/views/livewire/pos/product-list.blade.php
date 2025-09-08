@@ -5,7 +5,7 @@
                 <h5 class="mt-2">Products</h5>
             </div>
             <div class="col-md-12 col-lg-8">
-                <input type="text" class="form-control" placeholder="Enter Product name / SKU / Scan bar code">
+                <input type="text" class="form-control" placeholder="Enter Product name / SKU / Scan bar code" wire:model.live.debounce.500ms="search">
             </div>
             <div class="col-md-12 col-lg-2">
                 <div class="btn-list d-flex flex-wrap">
@@ -48,7 +48,7 @@
                     </div>
                 @endforeach
             </div>
-            <div wire:loading.class.remove="hidden" class="hidden py-6 text-center text-gray-500">
+            <div x-show="loading" class="py-6 text-center text-muted">
                 Loading…
             </div>
             {{-- Sentinel: the observer watches this element to trigger loadMore --}}

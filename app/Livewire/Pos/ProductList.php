@@ -24,6 +24,7 @@ class ProductList extends Component
 
     public function mount()
     {
+        $this->loading = true;
         $this->loadPage(); // first batch
         $this->brands = Brand::all();
         $this->categories = Category::all();
@@ -31,30 +32,37 @@ class ProductList extends Component
         // initialize pending filters
         $this->pendingBrandIds = $this->brandId;
         $this->pendingCategoryIds = $this->categoryId;
+        $this->loading = false;
     }
 
     public function updatedSearch()
     {
         // reset state when search changes
+        $this->loading = true;
         $this->reset(['products', 'page', 'hasMore']);
         $this->page = 1;
         $this->loadPage();
+        $this->loading = false;
     }
 
     public function updatedBrandId()
     {
         // reset and reload when brand filter changes
+        $this->loading = true;
         $this->reset(['products', 'page', 'hasMore']);
         $this->page = 1;
         $this->loadPage();
+        $this->loading = false;
     }
 
     public function updatedCategoryId()
     {
         // reset and reload when category filter changes
+        $this->loading = true;
         $this->reset(['products', 'page', 'hasMore']);
         $this->page = 1;
         $this->loadPage();
+        $this->loading = false;
     }
 
     public function applyFilters(): void
@@ -64,9 +72,11 @@ class ProductList extends Component
         $this->categoryId = (array) $this->pendingCategoryIds;
 
         // reset and reload products with applied filters
+        $this->loading = true;
         $this->reset(['products', 'page', 'hasMore']);
         $this->page = 1;
         $this->loadPage();
+        $this->loading = false;
     }
 
     public function clearFilters(): void
@@ -78,9 +88,11 @@ class ProductList extends Component
         $this->categoryId = [];
 
         // reset and reload all products
+        $this->loading = true;
         $this->reset(['products', 'page', 'hasMore']);
         $this->page = 1;
         $this->loadPage();
+        $this->loading = false;
     }
 
     public function loadMore()
