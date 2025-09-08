@@ -230,6 +230,7 @@ class ProductSeeder extends Seeder
             $productData['user_id'] = $user->id;
             $productData['business_id'] = $user->business_id;
             $productData['status'] = 'active';
+            $productData['images'] = 'assets/products/'. strtolower($productData['sku']) . '.png';
             
             Product::firstOrCreate(['sku' => $productData['sku']], $productData);
         }
