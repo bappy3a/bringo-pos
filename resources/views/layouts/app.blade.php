@@ -14,6 +14,7 @@
 
 		<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         @yield('css')
+        @livewireStyles
     </head>
     <body>
         @if (Request::is('pos'))
@@ -44,6 +45,7 @@
         <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 		<script src="{{ asset('assets/js/script.js') }}"></script>
 		@yield('js')
+        @livewireScripts
 		<script type="text/javascript">
             var base_url = "{{ url('/') }}",
             csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');

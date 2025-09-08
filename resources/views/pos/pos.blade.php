@@ -284,7 +284,6 @@
                             </div>
                             <div class="col-md-12 col-lg-2">
                                 <div class="btn-list d-flex flex-wrap">
-                                    {{-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filter <i class="fa-solid fa-barcode"></i></button> --}}
                                     <button class="btn btn-primary btn-w-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Filter <i class="fa-solid fa-arrow-down-short-wide"></i> </button>
                                 </div>
                             </div>
@@ -307,160 +306,55 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
+                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">
                                             <div class="product-info default-cover card">
                                                 <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-02.png" alt="Products" />
-                                                    
+                                                    <img src="assets/img/products/pos-product-01.png" alt="Products" />
                                                 </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Computer</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">MacBook Pro</a></h6>
+                                                <h6 class="product-name"><a href="javascript:void(0);">IPhone 14 64GB</a></h6>
                                                 <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>140 Pcs</span>
-                                                    <p>$1000</p>
+                                                    <span>30 Pcs</span>
+                                                    <p>$15800</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
+                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">
                                             <div class="product-info default-cover card">
                                                 <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-03.png" alt="Products" />
-                                                    
+                                                    <img src="assets/img/products/pos-product-01.png" alt="Products" />
                                                 </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Watches</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Rolex Tribute V3</a></h6>
+                                                <h6 class="product-name"><a href="javascript:void(0);">IPhone 14 64GB</a></h6>
                                                 <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>220 Pcs</span>
-                                                    <p>$6800</p>
+                                                    <span>30 Pcs</span>
+                                                    <p>$15800</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
+                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">
                                             <div class="product-info default-cover card">
                                                 <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-04.png" alt="Products" />
-                                                    
+                                                    <img src="assets/img/products/pos-product-01.png" alt="Products" />
                                                 </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Shoes</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Red Nike Angelo</a></h6>
+                                                <h6 class="product-name"><a href="javascript:void(0);">IPhone 14 64GB</a></h6>
                                                 <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>78 Pcs</span>
-                                                    <p>$7800</p>
+                                                    <span>30 Pcs</span>
+                                                    <p>$15800</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
+                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3">
                                             <div class="product-info default-cover card">
                                                 <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-05.png" alt="Products" />
-                                                    
+                                                    <img src="assets/img/products/pos-product-01.png" alt="Products" />
                                                 </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Headphones</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Airpod 2</a></h6>
+                                                <h6 class="product-name"><a href="javascript:void(0);">IPhone 14 64GB</a></h6>
                                                 <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>47 Pcs</span>
-                                                    <p>$5478</p>
+                                                    <span>30 Pcs</span>
+                                                    <p>$15800</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
-                                            <div class="product-info default-cover card">
-                                                <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-06.png" alt="Products" />
-                                                    
-                                                </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Shoes</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Blue White OGR</a></h6>
-                                                <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>54 Pcs</span>
-                                                    <p>$987</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
-                                            <div class="product-info default-cover card">
-                                                <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-07.png" alt="Products" />
-                                                    
-                                                </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Laptop</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">IdeaPad Slim 5 Gen 7</a></h6>
-                                                <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>74 Pcs</span>
-                                                    <p>$1454</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
-                                            <div class="product-info default-cover card">
-                                                <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-08.png" alt="Products" />
-                                                    
-                                                </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Headphones</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">SWAGME</a></h6>
-                                                <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>14 Pcs</span>
-                                                    <p>$6587</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
-                                            <div class="product-info default-cover card">
-                                                <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-09.png" alt="Products" />
-                                                    
-                                                </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Watches</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Timex Black SIlver</a></h6>
-                                                <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>24 Pcs</span>
-                                                    <p>$1457</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
-                                            <div class="product-info default-cover card">
-                                                <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-10.png" alt="Products" />
-                                                    
-                                                </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Computer</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Tablet 1.02 inch</a></h6>
-                                                <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>14 Pcs</span>
-                                                    <p>$4744</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
-                                            <div class="product-info default-cover card">
-                                                <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-11.png" alt="Products" />
-                                                    
-                                                </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Watches</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Fossil Pair Of 3 in 1 </a></h6>
-                                                <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>40 Pcs</span>
-                                                    <p>$789</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-2 col-md-6 col-lg-3 col-xl-3 pe-2">
-                                            <div class="product-info default-cover card">
-                                                <a href="javascript:void(0);" class="img-bg">
-                                                    <img src="assets/img/products/pos-product-18.png" alt="Products" />
-                                                    
-                                                </a>
-                                                <h6 class="cat-name"><a href="javascript:void(0);">Shoes</a></h6>
-                                                <h6 class="product-name"><a href="javascript:void(0);">Green Nike Fe</a></h6>
-                                                <div class="d-flex align-items-center justify-content-between price">
-                                                    <span>78 Pcs</span>
-                                                    <p>$7847</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="tab_content" data-tab="headphones">
@@ -1107,65 +1001,105 @@
                             </div>
                         </div>
                     </div>
+                    {{-- Filter Product --}}
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <h5 id="offcanvasRightLabel">Product Filter</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        
+                        <div class="offcanvas-body" style="overflow-y: auto; width: 90vh;">    
+                            <div class="categoyr-list">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <h6>Select Category</h6>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="post-profile-checkbox-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="sarah-wilson" id="sarah">
+                                                <label class="form-check-label" for="sarah">
+                                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Sarah Wilson" class="post-profile-avatar">
+                                                    <span class="post-profile-name">Sarah Wilson</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="post-profile-checkbox-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="sarah-wilson" id="sarah">
+                                                <label class="form-check-label" for="sarah">
+                                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Sarah Wilson" class="post-profile-avatar">
+                                                    <span class="post-profile-name">Sarah Wilson</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="post-profile-checkbox-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="sarah-wilson" id="sarah">
+                                                <label class="form-check-label" for="sarah">
+                                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Sarah Wilson" class="post-profile-avatar">
+                                                    <span class="post-profile-name">Sarah Wilson</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="categoyr-list mt-3">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <h6>Select Brand</h6>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="post-profile-checkbox-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="sarah-wilson" id="sarah">
+                                                <label class="form-check-label" for="sarah">
+                                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Sarah Wilson" class="post-profile-avatar">
+                                                    <span class="post-profile-name">Sarah Wilson</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="post-profile-checkbox-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="sarah-wilson" id="sarah">
+                                                <label class="form-check-label" for="sarah">
+                                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Sarah Wilson" class="post-profile-avatar">
+                                                    <span class="post-profile-name">Sarah Wilson</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="post-profile-checkbox-item">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="sarah-wilson" id="sarah">
+                                                <label class="form-check-label" for="sarah">
+                                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face" alt="Sarah Wilson" class="post-profile-avatar">
+                                                    <span class="post-profile-name">Sarah Wilson</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- filter end --}}
                 </div>
             </div>
         </div>
     </div>
 
     {{-- offcanvas --}}
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Product Filter</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
 
-        <div class="offcanvas-body">
-            <div>
-                Some text as placeholder. In real life you can have the elements you have chosen. Like, text,
-                images, lists, etc.
-            </div>
-            <h5 class="mt-3">List</h5>
-            <ul class="ps-3">
-                <li class="">Nemo enim ipsam voluptatem quia aspernatur</li>
-                <li class="">Neque porro quisquam est, qui dolorem</li>
-                <li class="">Quis autem vel eum iure qui in ea</li>
-            </ul>
-            <ul class="custom-control-group custom-control-vertical w-100">
-                <li>
-                    <div class="custom-control custom-control-sm custom-checkbox custom-control-pro">
-                        <input type="checkbox" class="custom-control-input" id="user-selection-s1" name="user-selection">
-                        <label class="custom-control-label" for="user-selection-s1">
-                            <span class="user-card">
-                                <span class="user-avatar sq">
-                                    <img src="./images/avatar/c-sm.jpg" alt="">
-                                </span>
-                                <span class="user-info">
-                                    <span class="lead-text">Keith Jensen</span>
-                                    <span class="sub-text">Senior Developer</span>
-                                </span>
-                            </span>
-                        </label>
-                    </div>
-                </li>
-                <li>
-                    <div class="custom-control custom-control-sm custom-checkbox custom-control-pro">
-                        <input type="checkbox" class="custom-control-input" id="user-selection-s2" name="user-selection">
-                        <label class="custom-control-label" for="user-selection-s2">
-                            <span class="user-card">
-                                <span class="user-avatar sm bg-pink">
-                                    <span>AB</span>
-                                </span>
-                                <span class="user-info">
-                                    <span class="lead-text">Abu Bin Ishtiyak</span>
-                                    <span class="sub-text">Senior Developer</span>
-                                </span>
-                            </span>
-                        </label>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
 
 @endsection
 
@@ -1178,4 +1112,68 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/owlcarousel/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/owlcarousel/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+    <style>
+        .post-profile-checkbox-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .post-profile-checkbox-item:hover {
+            border-color: #d1d5db;
+        }
+        
+        .post-profile-checkbox-item .form-check {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-left: 0 !important;
+        }
+        
+        .post-profile-checkbox-item .form-check-input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            flex-shrink: 0;
+        }
+        
+        .post-profile-checkbox-item .form-check-input:checked {
+            background-color: #8b5cf6;
+            border-color: #8b5cf6;
+        }
+        
+        .post-profile-checkbox-item .form-check-input:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+        }
+        
+        .post-profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 10%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .post-profile-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin: 0;
+            flex: 1;
+        }
+        
+        .form-check-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            margin-bottom: 0;
+            width: 100%;
+        }
+    </style>
 @endsection
