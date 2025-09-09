@@ -29082,6 +29082,8 @@ th.fixed-width {
   -webkit-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  width: auto !important;
+  height: 100% !important;
 }
 .pos-products .product-info .img-bg span {
   -webkit-transition: all 0.5s ease;
@@ -29259,8 +29261,8 @@ aside.product-order-list h6 {
   color: #1B2850;
 }
 aside.product-order-list .block-section {
-  margin: 0px 0 10px 0;
-  padding: 0 0 10px 0;
+  /* margin: 0px 0 5px 0; */
+  padding: 0 0 5px 0;
   border-bottom: 1px solid #f3f6f9;
 }
 aside.product-order-list .head {
@@ -29288,7 +29290,8 @@ aside.product-order-list .customer-info .input-block .btn {
   padding: 5px;
 }
 aside.product-order-list .product-added .head-text {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 aside.product-order-list .product-added .head-text .trash svg {
   margin-right: 8px;

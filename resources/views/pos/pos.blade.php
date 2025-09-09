@@ -6,7 +6,7 @@
     <!-- Header -->
 
     <div class="page-wrapper pos-pg-wrapper ms-0">
-        <div class="content pos-design p-0">
+        <div class="content pos-design p-0 pb-5">
 
     
             <div class="row align-items-start pos-wrapper">
@@ -225,8 +225,7 @@
                             </div>
                         </div>
     
-                        <div class="block-section payment-method">
-                            <h6>Payment Method</h6>
+                        <div class="block-section payment-method fixed-bottom bg-white border-top shadow">
                             <div class="row d-flex align-items-center justify-content-center methods">
                                 <div class="col-md-6 col-lg-4 item">
                                     <div class="default-cover">
@@ -254,6 +253,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="d-grid btn-block">
                             <a class="btn btn-secondary" href="javascript:void(0);">
                                 Grand Total : $64,024.5
