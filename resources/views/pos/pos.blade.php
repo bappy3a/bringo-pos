@@ -13,7 +13,6 @@
                 <div class="col-md-12 col-lg-5 ps-0">
                     <aside class="product-order-list">
                         <div class="customer-info block-section">
-                            <h6>Customer Information</h6>
                             <div class="input-block d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <select class="select" name="customer_id">
